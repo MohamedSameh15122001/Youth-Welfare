@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:thebes_academy/modules/register.dart';
+import 'package:readmore/readmore.dart';
+
+import 'category_details.dart';
 
 class Category extends StatelessWidget {
   List<String> activitys = [
@@ -93,23 +95,25 @@ class Category extends StatelessWidget {
                   Text('  2022-10-16'),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  'Believing in the vital role of managing social activities and camps in the formation of an integrated and balanced personality, understanding self-affirmation, the ability to develop skills, deepening the spirit of participation and community through activities, creating appropriate opportunities for practicing activity, encouraging students to scientific research and providing technical and financial support in order to develop capabilities, develop skills and assume responsibility, and work on Providing social support to the incapable, people with special needs, patients and orphans (through guidance and counseling).',
-                  style: TextStyle(
-                    fontSize: 20,
-                    height: 1.2,
-                    wordSpacing: -2,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: ReadMoreText(
+                  'Believing in the vital role of managing social activities and camps in the formation of an integrated and balanced personality, understanding self-affirmation, the ability to develop skills, deepening the spirit of participation and community through activities, creating appropriate opportunities for practicing activity, encouraging students to scientific research and providing technical and financial support in order to develop capabilities, develop skills and assume responsibility, and work on Providing social support to the incapable, people with special needs, patients and orphans (through guidance and counseling).\n\nIt is one of the pillars upon which the General Administration of Youth Welfare is based, through the activities implemented by the administration at the level of university students, as well as between students of the university and other universities.',
+                  trimLines: 10,
+                  // textAlign: TextAlign.left,
+                  lessStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[800],
                   ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  'It is one of the pillars upon which the General Administration of Youth Welfare is based, through the activities implemented by the administration at the level of university students, as well as between students of the university and other universities.',
-                  style: TextStyle(
-                    fontSize: 20,
+                  moreStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[800],
+                  ),
+                  trimMode: TrimMode.Line,
+                  trimCollapsedText: " Show More ",
+                  trimExpandedText: " Show Less ",
+                  style: const TextStyle(
+                    fontSize: 18,
                     height: 1.2,
                     wordSpacing: -2,
                   ),
@@ -140,13 +144,22 @@ class Category extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const Register(),
+                            builder: (context) => CategoryDetails(),
                           ),
                         );
                       }),
-                      child: Text(
-                        activitys[index],
-                        style: TextStyle(color: Colors.blue[800]),
+                      child: Card(
+                        color: Colors.blue[800],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            activitys[index],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   );
