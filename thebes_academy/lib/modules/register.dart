@@ -17,11 +17,7 @@ class Register extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              const CircleAvatar(
-                radius: 60,
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 60),
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Full Name',
@@ -61,6 +57,29 @@ class Register extends StatelessWidget {
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Confirm Password',
+                ),
+              ),
+              const SizedBox(height: 40),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Login();
+                      },
+                    ),
+                  );
+                },
+                minWidth: MediaQuery.of(context).size.width,
+                height: 60,
+                color: Colors.blue[800],
+                child: const Text(
+                  'Send',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
                 ),
               ),
               const SizedBox(height: 40),

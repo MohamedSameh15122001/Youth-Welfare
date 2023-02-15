@@ -27,12 +27,12 @@ class Categorys extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: GridView.builder(
           physics: const BouncingScrollPhysics(),
           itemCount: titleOfCategory.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: .7,
+            childAspectRatio: .6,
             crossAxisCount: 2,
             crossAxisSpacing: 30,
           ),
@@ -46,22 +46,35 @@ class Categorys extends StatelessWidget {
                   ),
                 );
               },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 0),
-                decoration: const BoxDecoration(),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      width: 300,
-                      height: 200,
-                      fit: BoxFit.contain,
-                      imageOfCategory[index],
-                    ),
-                    Text(
-                      titleOfCategory[index],
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 10.0,
+                        offset: const Offset(0.0, 10.0),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        width: 160,
+                        height: 200,
+                        fit: BoxFit.contain,
+                        imageOfCategory[index],
+                      ),
+                      const Divider(color: Colors.grey, thickness: .3),
+                      Text(
+                        titleOfCategory[index],
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
