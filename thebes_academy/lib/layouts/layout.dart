@@ -21,17 +21,14 @@ class _LayoutState extends State<Layout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 12),
-            child: Icon(Icons.search),
-          )
-        ],
+
+
         backgroundColor: Colors.blue[800],
         centerTitle: true,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(width: 28,),
             const Text('Thebes '),
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
@@ -49,22 +46,6 @@ class _LayoutState extends State<Layout> {
         child: ListView(
           children: [
             DrawerHeader(child: Image.asset('lib/assets/images/header.png')),
-            ListTile(
-              leading: const Icon(
-                Icons.dark_mode,
-              ),
-              title: const Text(
-                'Dark Mode',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Switch(
-                activeColor: Colors.blue[800],
-                onChanged: (value) {},
-                value: false,
-              ),
-            ),
             ListTile(
               onTap: () {},
               leading: const Icon(
@@ -103,7 +84,7 @@ class _LayoutState extends State<Layout> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentPage,
-        iconSize: 30,
+        iconSize: 25,
         selectedIconTheme: const IconThemeData(
           size: 30,
         ),
@@ -115,10 +96,10 @@ class _LayoutState extends State<Layout> {
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black54,
-        backgroundColor: Colors.blue[800],
-        elevation: 0,
+        selectedItemColor: Colors.blue[800],
+        unselectedItemColor: Colors.grey[500],
+        backgroundColor: Colors.white,
+        elevation: 10,
         onTap: (index) => changeLayout(index),
         items: const [
           BottomNavigationBarItem(

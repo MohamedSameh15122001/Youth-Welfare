@@ -1,86 +1,161 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import 'category.dart';
+import '../cubit/appCubit.dart';
+import '../cubit/states.dart';
+import 'categoryDetail.dart';
 
 class Categorys extends StatelessWidget {
-  List<String> titleOfCategory = [
-    "Scientific Activity Department",
-    "Families Commission Departmen",
-    "Cultural Activity Department",
-    "Social activities Department",
-    "Social Solidarity Fund Department",
-    "Sport Activity Department",
-    "Art Activities Department",
-  ];
-  List<String> imageOfCategory = [
-    "lib/assets/images/c1.jpg",
-    "lib/assets/images/c2.jpg",
-    "lib/assets/images/c3.jpg",
-    "lib/assets/images/c4.jpg",
-    "lib/assets/images/c5.jpg",
-    "lib/assets/images/c6.jpg",
-    "lib/assets/images/c7.png",
-  ];
+
   Categorys({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: GridView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: titleOfCategory.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: .6,
-            crossAxisCount: 2,
-            crossAxisSpacing: 30,
-          ),
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Category(),
-                  ),
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade300,
-                        blurRadius: 10.0,
-                        offset: const Offset(0.0, 10.0),
+    return BlocConsumer<AppCubit,AppStates> (
+      listener: (context,state)
+      {},
+      builder: (context,state) {
+        var cubit =AppCubit.get(context);
+        return Conditional.single(
+          context: context,
+          conditionBuilder: (context) => cubit.categoriesModel != null ,
+          widgetBuilder:(context) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0.0),
+            child: AnimationLimiter(
+              child: GridView.count(
+                childAspectRatio: .6,
+                crossAxisSpacing: 30,
+                physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                padding: EdgeInsets.symmetric(vertical: 20),
+                crossAxisCount: 2,
+                children: List.generate(
+                 cubit.categoriesModel!.result!.length,
+                      (int index) {
+                    return AnimationConfiguration.staggeredGrid(
+                      position: index,
+                      duration: Duration(milliseconds: 500),
+                      columnCount: 2,
+                      child: ScaleAnimation(
+                        duration: Duration(milliseconds: 900),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        child: FadeInAnimation(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(40)),
+                            child: GestureDetector(
+                              onTap: () {
+                                cubit.getCategoriesDetailData(cubit.categoriesModel!.result![index].sId );
+                                cubit.getActivityData(cubit.categoriesModel!.result![index].sId);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Category(),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.shade300,
+                                        blurRadius: 10.0,
+                                        offset: const Offset(0.0, 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Image.network(
+                                        width: 160,
+                                        height: 200,
+                                        fit: BoxFit.contain,
+                                        '${cubit.categoriesModel!.result![index].coverImage}',
+                                      ),
+                                      const Divider(color: Colors.grey, thickness: .3),
+                                      Text(
+                                        '${cubit.categoriesModel!.result![index].titleAr}',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        width: 160,
-                        height: 200,
-                        fit: BoxFit.contain,
-                        imageOfCategory[index],
-                      ),
-                      const Divider(color: Colors.grey, thickness: .3),
-                      Text(
-                        titleOfCategory[index],
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
-            );
-          },
-        ),
-      ),
+            ),
+
+          ),
+          fallbackBuilder:(context) => Center(child: CircularProgressIndicator(),),
+        );
+      } ,
+
     );
   }
 }
+
+
+
+
+// GridView.builder(
+// physics: const BouncingScrollPhysics(),
+// itemCount: cubit.categoriesModel!.result!.length,
+// gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+// childAspectRatio: .6,
+// crossAxisCount: 2,
+// crossAxisSpacing: 30,
+// ),
+// itemBuilder: (context, index) {
+// return GestureDetector(
+// onTap: () {
+// Navigator.push(
+// context,
+// MaterialPageRoute(
+// builder: (context) => Category(),
+// ),
+// );
+// },
+// child: Padding(
+// padding: const EdgeInsets.symmetric(vertical: 10),
+// child: Container(
+// padding: const EdgeInsets.symmetric(horizontal: 0),
+// decoration: BoxDecoration(
+// color: Colors.white,
+// boxShadow: [
+// BoxShadow(
+// color: Colors.grey.shade300,
+// blurRadius: 10.0,
+// offset: const Offset(0.0, 10.0),
+// ),
+// ],
+// ),
+// child: Column(
+// children: [
+// Image.network(
+// width: 160,
+// height: 200,
+// fit: BoxFit.contain,
+// '${cubit.categoriesModel!.result![index].coverImage}',
+// ),
+// const Divider(color: Colors.grey, thickness: .3),
+// Text(
+// '${cubit.categoriesModel!.result![index].titleAr}',
+// textAlign: TextAlign.center,
+// ),
+// ],
+// ),
+// ),
+// ),
+// );
+// },
+// ),

@@ -1,10 +1,17 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
+import 'package:thebes_academy/remoteNetwork/dioHelper.dart';
+import 'package:thebes_academy/shared/bloc_observer.dart';
 
+import 'cubit/appCubit.dart';
 import 'layouts/layout.dart';
 
 void main() {
+  Bloc.observer = MyBlocObserver();
+  DioHelper.init();
   runApp(const MyApp());
 }
 
@@ -19,19 +26,22 @@ class MyApp extends StatelessWidget {
         statusBarColor: Colors.blue[800],
       ),
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'graduation project',
-      theme: ThemeData(
-        iconTheme: const IconThemeData(
-          color: Colors.white,
+    return BlocProvider(
+      create: (context) => AppCubit()..getHomeData()..getCategoryData(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'graduation project',
+        theme: ThemeData(
+          iconTheme: const IconThemeData(
+            color: Colors.white,
+          ),
+          appBarTheme: AppBarTheme(
+            centerTitle: true,
+            color: Colors.blue[800],
+          ),
         ),
-        appBarTheme: AppBarTheme(
-          centerTitle: true,
-          color: Colors.blue[800],
-        ),
+        home: splashScreen(),
       ),
-      home: splashScreen(),
     );
   }
 
