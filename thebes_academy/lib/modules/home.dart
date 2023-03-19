@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,8 +18,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
-      listener: (context,state)
-      {},
+      listener: (context,state) {},
         builder: (context,state)
         {
            var cubit =AppCubit.get(context);
@@ -30,7 +30,9 @@ class Home extends StatelessWidget {
             child: AnimationLimiter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: AnimationConfiguration.toStaggeredList(childAnimationBuilder:(widget) => SlideAnimation(
+                children: AnimationConfiguration.toStaggeredList(
+                    duration: const Duration(milliseconds: 500),
+                    childAnimationBuilder:(widget) => SlideAnimation(
                   horizontalOffset: 50.0,
                   child: FadeInAnimation(
                     child: widget,
@@ -52,7 +54,7 @@ class Home extends StatelessWidget {
                     ),
                     autoPlayCurve: Curves.fastOutSlowIn,
                     scrollDirection: Axis.horizontal,
-                    viewportFraction: 1,
+                    viewportFraction: 1.0,
                   ),
                   items: cubit.homeModel!.result![0].images!.map((i) {
                     return Builder(
@@ -60,12 +62,11 @@ class Home extends StatelessWidget {
                         return Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * .9,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          margin: const EdgeInsets.symmetric(horizontal:1.0),
                           decoration: const BoxDecoration(color: Colors.amber),
-                          child: Image.network(
-                            '${i.url}',
+                          child: CachedNetworkImage(
                             width: double.infinity,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.cover, imageUrl: '${i.url}',
                           ),
                         );
                       },
@@ -120,7 +121,7 @@ class Home extends StatelessWidget {
               ),
             ),
           ) ,
-        fallbackBuilder:(context) => Center(child: CircularProgressIndicator(),),
+        fallbackBuilder:(context) => const Center(child: CircularProgressIndicator(),),
 
 
 

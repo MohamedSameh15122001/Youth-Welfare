@@ -3,15 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
+import 'package:thebes_academy/remoteNetwork/cacheHelper.dart';
 import 'package:thebes_academy/remoteNetwork/dioHelper.dart';
 import 'package:thebes_academy/shared/bloc_observer.dart';
+import 'package:thebes_academy/shared/constants.dart';
 
 import 'cubit/appCubit.dart';
 import 'layouts/layout.dart';
 
-void main() {
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
+  await CacheHelper.init();
+
+  token = CacheHelper.getData('token');
+
   runApp(const MyApp());
 }
 
@@ -23,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.blue[800],
+        statusBarColor: defaultColor,
       ),
     );
     return BlocProvider(
@@ -32,12 +40,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'graduation project',
         theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          primaryColor: defaultColor,
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
           appBarTheme: AppBarTheme(
             centerTitle: true,
-            color: Colors.blue[800],
+            color: defaultColor,
           ),
         ),
         home: splashScreen(),
@@ -49,21 +59,14 @@ class MyApp extends StatelessWidget {
         navigateRoute: const Layout(),
         duration: 4000,
         imageSize: 200,
-        imageSrc: "lib/assets/images/logo.jpg",
+        imageSrc: "lib/assets/images/header.png",
         text: "  ",
         textType: TextType.ScaleAnimatedText,
         textStyle: TextStyle(
           fontSize: 38.0,
-          color: Colors.blue[800],
+          color: defaultColor ,
           fontWeight: FontWeight.w900,
         ),
         backgroundColor: Colors.white,
       );
 }
-
-// getdata() async {
-//     var url = 'https://69b2-41-236-140-106.eu.ngrok.io/api/v1/products/';
-//     var response = await http.get(Uri.parse(url));
-//     Map data = jsonDecode(response.body);
-//     debugPrint(data['page']);
-//   }

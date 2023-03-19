@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+
 
 
 void printFullText(String text) {
@@ -7,16 +9,46 @@ void printFullText(String text) {
   pattern.allMatches(text).forEach((match) => print(match.group(0)));
 }
 
-// void showToast(msg) {
-//   Fluttertoast.showToast(
-//       msg: msg,
-//       toastLength: Toast.LENGTH_LONG,
-//       gravity: ToastGravity.BOTTOM,
-//       timeInSecForIosWeb: 5,
-//       backgroundColor: Colors.red,
-//       textColor: Colors.white,
-//       fontSize: 16.0);
-// }
+void showToast({
+  required String text,
+  required ToastStates state,
+  int time=5,
+
+}) =>
+    Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: time,
+      backgroundColor: chooseToastColor(state),
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+
+// enum
+// ignore: constant_identifier_names
+enum ToastStates {SUCCESS, ERROR, WARNING}
+
+Color chooseToastColor(ToastStates state)
+{
+  Color color;
+
+  switch(state)
+  {
+    case ToastStates.SUCCESS:
+      color = Colors.green;
+      break;
+    case ToastStates.ERROR:
+      color = Colors.red;
+      break;
+    case ToastStates.WARNING:
+      color = Colors.amber;
+      break;
+  }
+
+  return color;
+}
+
 String getDate(formattedString) {
   DateTime dateTime = DateTime.parse(formattedString);
   String date = DateFormat.yMMMd().format(dateTime);
@@ -60,7 +92,8 @@ Widget myDivider() => Container(
 
 
 
-Color defaultColor = Colors.red;
+Color defaultColor = Colors.blue[800]!;
 
 String? token = '';
-String lang ='en';
+String lang ='ar';
+String specialization='Computer Science';

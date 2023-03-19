@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:thebes_academy/modules/categorys.dart';
 import 'package:thebes_academy/modules/home.dart';
 import 'package:thebes_academy/modules/profile.dart';
+
+import '../shared/constants.dart';
 
 class Layout extends StatefulWidget {
   const Layout({super.key});
@@ -21,15 +24,13 @@ class _LayoutState extends State<Layout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-
-        backgroundColor: Colors.blue[800],
+        backgroundColor:defaultColor,
         centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(width: 28,),
-            const Text('Thebes '),
+            const SizedBox(width: 22,),
+             Text('Thebes ',style: GoogleFonts.poppins(),),
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.asset(
@@ -38,7 +39,7 @@ class _LayoutState extends State<Layout> {
                 fit: BoxFit.cover,
               ),
             ),
-            const Text(' Academy'),
+             Text(' Academy',style: GoogleFonts.poppins()),
           ],
         ),
       ),
@@ -96,7 +97,7 @@ class _LayoutState extends State<Layout> {
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
-        selectedItemColor: Colors.blue[800],
+        selectedItemColor:defaultColor ,
         unselectedItemColor: Colors.grey[500],
         backgroundColor: Colors.white,
         elevation: 10,

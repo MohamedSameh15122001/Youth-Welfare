@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:thebes_academy/modules/home.dart';
 
@@ -32,7 +34,7 @@ class Category extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Thebes '),
+                 Text('Thebes ',style: GoogleFonts.poppins()),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
@@ -41,8 +43,8 @@ class Category extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const Text(' Academy'),
-                const SizedBox(width: 38,),
+                 Text(' Academy',style: GoogleFonts.poppins()),
+                const SizedBox(width: 30,),
 
               ],
             ),
@@ -55,7 +57,9 @@ class Category extends StatelessWidget {
               child: AnimationLimiter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: AnimationConfiguration.toStaggeredList(childAnimationBuilder:(widget) => SlideAnimation(
+                  children: AnimationConfiguration.toStaggeredList(
+                      duration: const Duration(milliseconds: 500),
+                      childAnimationBuilder:(widget) => SlideAnimation(
                     horizontalOffset: 50.0,
                     child: FadeInAnimation(
                       child: widget,
@@ -85,10 +89,10 @@ class Category extends StatelessWidget {
                                 return Container(
                                   width: MediaQuery.of(context).size.width,
                                   height: MediaQuery.of(context).size.height * .9,
-                                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                  margin: const EdgeInsets.symmetric(horizontal: 1.0),
                                   decoration: const BoxDecoration(color: Colors.amber),
-                                  child: Image.network(
-                                    '${i.url}',
+                                  child: CachedNetworkImage(
+                                    imageUrl:'${i.url}',
                                     width: double.infinity,
                                     fit: BoxFit.cover,
                                   ),
@@ -104,7 +108,8 @@ class Category extends StatelessWidget {
                             children: [
                               Text(
                                 '${cubit.categoriesDetailModel!.result!.titleAr}',
-                                style: const TextStyle(
+                                style:
+                                const TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -205,19 +210,19 @@ class Category extends StatelessWidget {
                                                         BoxShadow(
                                                           color: Colors.grey.shade300,
                                                           blurRadius: 10.0,
-                                                          offset: const Offset(0.0, 10.0),
+                                                          offset: const Offset(0.0, 5.0),
                                                         ),
                                                       ],
                                                     ),
                                                     child: Column(
                                                       children: [
-                                                        Image.network(
+                                                        CachedNetworkImage(
                                                           width: 80,
                                                           height: 100,
                                                           fit: BoxFit.fill,
-                                                          '${cubit.activitiesModel!.result![index].coverImage}',
+                                                          imageUrl: '${cubit.activitiesModel!.result![index].coverImage}',
                                                         ),
-                                                        const Divider(color: Colors.grey, thickness: .3),
+                                                        const Divider(color: Colors.grey, thickness: .4),
                                                         Text(
                                                           '${cubit.activitiesModel!.result![index].titleAr}',
                                                           textAlign: TextAlign.center,

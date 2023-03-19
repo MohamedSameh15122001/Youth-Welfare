@@ -1,119 +1,275 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:thebes_academy/shared/constants.dart';
 
+import '../cubit/appCubit.dart';
+import '../cubit/states.dart';
+import '../shared/component.dart';
 import 'Login.dart';
+
+
+
+TextEditingController email = TextEditingController();
+TextEditingController password = TextEditingController();
+TextEditingController name = TextEditingController();
+TextEditingController code = TextEditingController();
+TextEditingController phone = TextEditingController();
+TextEditingController confirmPassword = TextEditingController();
+TextEditingController specialization_ar = TextEditingController();
+TextEditingController specialization_en = TextEditingController();
+
+var signUpFormKey = GlobalKey<FormState>();
+
 
 class Register extends StatelessWidget {
   const Register({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register'),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 60),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Full Name',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Email',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'ID',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Specialization',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Phone Number',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Password',
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Confirm Password',
-                ),
-              ),
-              const SizedBox(height: 40),
-              MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const Login();
-                      },
-                    ),
-                  );
-                },
-                minWidth: MediaQuery.of(context).size.width,
-                height: 60,
-                color: Colors.blue[800],
-                child: const Text(
-                  'Send',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              Row(
+    return  BlocConsumer<AppCubit,AppStates>(
+        listener:(context,state){
+          if(state is SignUpSuccessState)
+          {
+              showToast(text: '${state.registerModel.message}...Then login now ', state: ToastStates.SUCCESS,time: 7);
+              Navigator.pop(context);
+              email.clear();
+              password.clear();
+              code.clear();
+              name.clear();
+              specialization_ar.clear();
+              specialization_en.clear();
+              phone.clear();
+              confirmPassword.clear();
+
+
+          if(state is SignUpErrorState){
+            showToast(text: 'incorrect the data entered', state: ToastStates.ERROR);
+          }
+        } },
+        builder:(context,state)
+        {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: defaultColor,
+              centerTitle: true,
+              title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'You are a member!   ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  Text('Thebes ', style: GoogleFonts.poppins()),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      width: 50,
+                      'lib/assets/images/logo.jpg',
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const Login();
-                        },
-                      ));
-                    },
-                    child: Text(
-                      'Login now',
-                      style: TextStyle(
-                        color: Colors.blue[800],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  Text(' Academy', style: GoogleFonts.poppins()),
+                  const SizedBox(
+                    width: 30,
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
+            body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Form(
+                key: signUpFormKey,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+                  child: AnimationLimiter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: AnimationConfiguration.toStaggeredList(
+                        duration: Duration(milliseconds: 500),
+                        childAnimationBuilder: (widget) => SlideAnimation(
+                          horizontalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: widget,
+                          ),
+                        ),
+                        children: [
+                          Text('Create An Account',style: GoogleFonts.poppins(fontSize: 25,fontWeight: FontWeight.bold,color: defaultColor),),
+                          const SizedBox(height: 20,),
+                          defaultFormField(
+                              context: context,
+                              keyboardType: TextInputType.text,
+                              controller: name,
+                              label: 'Name',
+                              prefix: Icons.person,
+                              validate: (value)
+                              {
+                                if(value!.isEmpty) {
+                                  return 'Name field is required';
+                                }
+                              }
+                          ),
+                          const SizedBox(height: 30,),
+                          defaultFormField(
+                              context: context,
+                              keyboardType: TextInputType.number,
+                              controller: code,
+                              label: 'Code',
+                              prefix: Icons.password_outlined,
+                              validate: (value)
+                              {
+                                if(value!.isEmpty) {
+                                  return 'Code field is required';
+                                }
+                              }
+                          ),
+                          const SizedBox(height: 30,),
+                          defaultFormField(
+                              context: context,
+                              controller: phone,
+                              label: 'Phone',
+                              keyboardType: TextInputType.phone,
+                              prefix: Icons.phone,
+                              validate: (value)
+                              {
+                                if(value!.isEmpty) {
+                                  return 'Phone field is required';
+                                }
+                              }
+                          ),
+                          const SizedBox(height: 30,),
+                          defaultFormField(
+                              context: context,
+                              controller: email,
+                              keyboardType: TextInputType.emailAddress,
+                              label: 'Email Address',
+                              prefix: Icons.email,
+                              validate: (value)
+                              {
+                                if(value!.isEmpty) {
+                                  return 'Email Address must be filled';
+                                }
+                              }
+                          ),
+                          const SizedBox(height: 30,),
+                          defaultFormField(
+                              context: context,
+                              controller: password,
+                              label: 'Password',
+                              prefix: Icons.lock,
+                              isPassword:AppCubit.get(context).showPasswordR,
+                              validate: (value)
+                              {
+                                if(value!.isEmpty) {
+                                  return'Password must be filled';
+                                }
+                              },
+                              onSubmit: (value) {},
+                              suffix: AppCubit.get(context).suffixIconR,
+                              suffixPressed: ()
+                              {
+                                AppCubit.get(context).changeSuffixIconR(context);
+                              }
+                          ),
+                          const SizedBox(height: 30,),
+                          defaultFormField(
+                              context: context,
+                              controller: confirmPassword,
+                              label: 'Confirm Password',
+                              prefix: Icons.lock,
+                              isPassword:AppCubit.get(context).showConfirmPasswordR,
+                              validate: (value)
+                              {
+                                if(value!.isEmpty) {
+                                  return 'Password field is required';
+                                } else if(value != password.text) {
+                                  return 'Password Don\'t Match';
+                                }
+                              },
+                              suffix: AppCubit.get(context).confirmSuffixIconR,
+                              suffixPressed: ()
+                              {
+                                AppCubit.get(context).changeConfirmSuffixIconR(context);
+                              }
+                          ),
+                          const SizedBox(height: 30,),
+                          ListTile(
+                            onTap: () {},
+                            leading: const Icon(
+                              Icons.bookmark_added_rounded,
+                            ),
+                            title: Row(
+                              children: [
+                                const Text(
+                                  'Specialization',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 50),
+                                DropdownButton(
+                                  items: ["Computer Science", "Accounting",'Engineer','Commerce'].map((valueItem) {
+                                    return DropdownMenuItem(
+                                      value: valueItem,
+                                      child: Text(
+                                        valueItem,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    specialization=newValue!;
+                                    AppCubit.get(context).emit(ChangeDropDownState());
+                                  },
+                                  value: specialization,
+                                  underline: const SizedBox(),
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 30,),
+                          state is SignUpLoadingState ?
+                          const Center(child: CircularProgressIndicator())
+                              :ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: MaterialButton(
+                              onPressed: () {
+                                if (signUpFormKey.currentState!.validate()) {
+                                  AppCubit.get(context).signUp(
+                                    email: email.text,
+                                    password: password.text,
+                                    fullName: name.text,
+                                    code: code.text,
+                                    phone: phone.text,
+                                    specialization_ar: specialization,
+                                    specialization_en: specialization,
+                                  );
+
+                                };
+                              },
+                              minWidth: MediaQuery.of(context).size.width,
+                              height: 50,
+                              color: defaultColor,
+                              child:  Text(
+                                  'REGISTER',
+                                  style: GoogleFonts.poppins( color: Colors.white,
+                                    fontSize: 20,)
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+
+
+
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
     );
   }
 }

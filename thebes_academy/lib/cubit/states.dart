@@ -1,10 +1,15 @@
 
 
+import 'package:thebes_academy/modules/register.dart';
+
+import '../models/loginModel.dart';
+import '../models/registerModel.dart';
+
 abstract class AppStates {}
 
 ///General States
 class InitialState extends AppStates{}
-class ChangeBottomNavState extends AppStates{}
+class ChangeDropDownState extends AppStates{}
 class ChangeSuffixIconState extends AppStates{}
 class GetTokenSuccessState extends AppStates{}
 
@@ -13,10 +18,13 @@ class GetTokenSuccessState extends AppStates{}
 ///Login State
 class LoginLoadingState extends AppStates{}
 class LoginSuccessState extends AppStates{
-  // final UserModel loginUserModel;
-  // LoginSuccessState(this.loginUserModel);
+  final LoginModel loginModel;
+  LoginSuccessState(this.loginModel);
 }
-class LoginErrorState extends AppStates{}
+class LoginErrorState extends AppStates{
+  final LoginModel loginModel;
+  LoginErrorState(this.loginModel);
+}
 ///End of Login State
 
 //FCM State
@@ -34,10 +42,13 @@ class LogOutErrorState extends AppStates{}
 ///SignUp State
 class SignUpLoadingState extends AppStates{}
 class SignUpSuccessState extends AppStates{
-  // final UserModel signUpUserModel;
-  // SignUpSuccessState(this.signUpUserModel);
+  final RegisterModel registerModel;
+  SignUpSuccessState(this.registerModel);
 }
-class SignUpErrorState extends AppStates{}
+class SignUpErrorState extends AppStates{
+  final RegisterModel registerModel;
+  SignUpErrorState(this.registerModel);
+}
 
 ///Home State
 class HomeLoadingState extends AppStates{}

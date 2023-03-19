@@ -1,63 +1,108 @@
-// ListView.builder(
-// physics: const NeverScrollableScrollPhysics(),
-// shrinkWrap: true,
-// itemCount: cubit.activitiesModel!.result!.length,
-// itemBuilder: (context, index) {
-// return Padding(
-// padding: const EdgeInsets.symmetric(vertical: 8.0),
-// child: GestureDetector(
-// onTap: (() {
+// Scaffold(
+// appBar: AppBar(
+// title:  Text('Register',style: GoogleFonts.poppins(),),
+// ),
+// body: SingleChildScrollView(
+// physics: const BouncingScrollPhysics(),
+// child: Padding(
+// padding: const EdgeInsets.all(12.0),
+// child: Column(
+// children: [
+// const SizedBox(height: 60),
+// TextFormField(
+// decoration: const InputDecoration(
+// hintText: 'Full Name',
+// ),
+// ),
+// const SizedBox(height: 20),
+// TextFormField(
+// decoration: const InputDecoration(
+// hintText: 'Email',
+// ),
+// ),
+// const SizedBox(height: 20),
+// TextFormField(
+// decoration: const InputDecoration(
+// hintText: 'ID',
+// ),
+// ),
+// const SizedBox(height: 20),
+// TextFormField(
+// decoration: const InputDecoration(
+// hintText: 'Specialization',
+// ),
+// ),
+// const SizedBox(height: 20),
+// TextFormField(
+// decoration: const InputDecoration(
+// hintText: 'Phone Number',
+// ),
+// ),
+// const SizedBox(height: 20),
+// TextFormField(
+// decoration: const InputDecoration(
+// hintText: 'Password',
+// ),
+// ),
+// const SizedBox(height: 20),
+// TextFormField(
+// decoration: const InputDecoration(
+// hintText: 'Confirm Password',
+// ),
+// ),
+// const SizedBox(height: 40),
+// MaterialButton(
+// onPressed: () {
 // Navigator.push(
 // context,
 // MaterialPageRoute(
-// builder: (context) => CategoryDetails(),
+// builder: (context) {
+// return const Login();
+// },
 // ),
 // );
-// }),
-// child: Container(
+// },
+// minWidth: MediaQuery.of(context).size.width,
 // height: 60,
-// decoration: BoxDecoration(
-// boxShadow: [
-// BoxShadow(
-// color: Colors.grey.shade300,
-// blurRadius: 2.0,
-// offset: const Offset(0.0, 4.0),
-// ),
-// ],
-// color: Colors.grey[300],
-// ),
-// child: Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: Row(
-// children: [
-// Container(
-// padding: const EdgeInsets.all(10),
-// decoration: BoxDecoration(
+// color: Colors.blue[800],
+// child: const Text(
+// 'Send',
+// style: TextStyle(
 // color: Colors.white,
-// borderRadius: BorderRadius.circular(10),
-// ),
-// child: const Icon(
-// Icons.social_distance,
-// color: Colors.black,
+// fontSize: 20,
 // ),
 // ),
-// const SizedBox(width: 10),
-// Expanded(
-// child: Center(
+// ),
+// const SizedBox(height: 40),
+// Row(
+// mainAxisAlignment: MainAxisAlignment.center,
+// children: [
+// const Text(
+// 'You are a member!   ',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// InkWell(
+// onTap: () {
+// Navigator.pushReplacement(context, MaterialPageRoute(
+// builder: (context) {
+// return const Login();
+// },
+// ));
+// },
 // child: Text(
-// '${cubit.activitiesModel!.result![index].titleAr}',
-// style: const TextStyle(
-// // color: Colors.black,
+// 'Login now',
+// style: TextStyle(
+// color: Colors.blue[800],
 // fontWeight: FontWeight.bold,
 // ),
 // ),
 // ),
+// ],
 // ),
 // ],
 // ),
 // ),
 // ),
-// ),
 // );
-// },
-// ),

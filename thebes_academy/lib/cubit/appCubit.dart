@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thebes_academy/cubit/states.dart';
 import 'package:thebes_academy/models/categoriesModel.dart';
+import 'package:thebes_academy/models/loginModel.dart';
 import 'package:thebes_academy/remoteNetwork/endPoints.dart';
 
 import '../models/activitiesModel.dart';
 import '../models/activityDetailModel.dart';
 import '../models/categoryDetailModel.dart';
 import '../models/homeModel.dart';
+import '../models/registerModel.dart';
 import '../remoteNetwork/dioHelper.dart';
 
 class AppCubit extends Cubit<AppStates>{
@@ -98,4 +100,106 @@ class AppCubit extends Cubit<AppStates>{
       print(error.toString());
     });
   }
+
+/////////////////////////////////////////////////////////////////////
+
+  LoginModel? loginModel;
+  void signIn({
+    required String email,
+    required String password,
+  }) {
+    emit(LoginLoadingState());
+    DioHelper.postData(
+      query: {'lang':'ar'},
+        url: Login,
+        data:
+        {
+          'email': '$email',
+          'password': '$password',
+        }).then((value) {
+      loginModel = LoginModel.fromJson(value.data);
+      // print('${loginModel!.message}');
+
+      emit(LoginSuccessState(loginModel!));
+    }).catchError((error) {
+      print(error.toString());
+      emit(LoginErrorState(loginModel!));
+    });
+  }
+
+  bool showPassword = true;
+  IconData suffixIcon = Icons.visibility;
+  void changeSuffixIcon(context){
+    showPassword =! showPassword;
+    if(showPassword==false) {
+      suffixIcon = Icons.visibility_off;
+    } else {
+      suffixIcon = Icons.visibility;
+    }
+    emit(ChangeSuffixIconState());
+  }
+
+///////////////////////////////////////////////////////////////////
+
+   RegisterModel? registerModel;
+
+  void signUp({
+    required String fullName,
+    required String code,
+    required String phone,
+    required String email,
+    required String password,
+    required String specialization_ar,
+    required String specialization_en,
+
+  }) {
+    emit(SignUpLoadingState());
+    DioHelper.postData(
+        url: Register,
+        query: {'lang':'ar'},
+        data:
+        {
+          'full_name': '$fullName',
+          'code':'$code',
+          'email': '$email',
+          'phone': '$phone',
+          'password': '$password',
+          'Specialization_ar' : '$specialization_ar',
+        'Specialization_en' : '$specialization_en'
+        }).then((value) {
+      registerModel = RegisterModel.fromJson(value.data);
+      print('${registerModel!.message}');
+
+      emit(SignUpSuccessState(registerModel!));
+    }).catchError((error) {
+      print(error.toString());
+      emit(SignUpErrorState(registerModel!));
+    });
+  }
+
+  bool showPasswordR = true;
+  IconData suffixIconR = Icons.visibility;
+  void changeSuffixIconR(context){
+    showPasswordR =! showPasswordR;
+    if(showPasswordR==false) {
+      suffixIconR = Icons.visibility_off;
+    } else {
+      suffixIconR = Icons.visibility;
+    }
+    emit(ChangeSuffixIconState());
+  }
+
+  bool showConfirmPasswordR = true;
+  IconData confirmSuffixIconR = Icons.visibility;
+  void changeConfirmSuffixIconR(context){
+    showConfirmPasswordR =! showConfirmPasswordR;
+    if(showConfirmPasswordR==false) {
+      confirmSuffixIconR = Icons.visibility_off;
+    } else {
+      confirmSuffixIconR = Icons.visibility;
+    }
+    emit(ChangeSuffixIconState());
+  }
+
+
 }

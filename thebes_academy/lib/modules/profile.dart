@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../shared/constants.dart';
+
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
@@ -54,9 +56,9 @@ class Profile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
-                  height: 60,
+                  height: 50,
                   onPressed: () {},
-                  color: Colors.blue[800],
+                  color: defaultColor,
                   child: const Text(
                     'SIGN OUT',
                     style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thebes_academy/shared/constants.dart';
 
 
 Widget defaultFormField({
@@ -18,6 +19,8 @@ Widget defaultFormField({
   suffixPressed,
 }) =>
     TextFormField(
+      // cursorColor: defaultColor,
+
       controller: controller,
       keyboardType: keyboardType,
       obscureText: isPassword,
@@ -34,6 +37,7 @@ Widget defaultFormField({
       //textCapitalization: TextCapitalization.words,
 
       decoration: InputDecoration(
+        iconColor: defaultColor,
         hintText: label,
         border:UnderlineInputBorder(),
         prefixIcon: Icon(prefix,),
@@ -51,9 +55,10 @@ Widget defaultButton({
   height: 40,
   width: width,
   decoration: BoxDecoration(
-    color: Colors.red,
+    color: defaultColor,
   ),
   child: ElevatedButton(
+
     onPressed: onTap,
     child: Text(
       '$text',

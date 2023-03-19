@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
@@ -38,7 +39,7 @@ class Categorys extends StatelessWidget {
                       duration: Duration(milliseconds: 500),
                       columnCount: 2,
                       child: ScaleAnimation(
-                        duration: Duration(milliseconds: 900),
+                         duration: Duration(milliseconds: 500),
                         curve: Curves.fastLinearToSlowEaseIn,
                         child: FadeInAnimation(
                           child: ClipRRect(
@@ -64,17 +65,18 @@ class Categorys extends StatelessWidget {
                                       BoxShadow(
                                         color: Colors.grey.shade300,
                                         blurRadius: 10.0,
-                                        offset: const Offset(0.0, 10.0),
+                                        offset: const Offset(0.0, 5.0),
                                       ),
                                     ],
                                   ),
                                   child: Column(
                                     children: [
-                                      Image.network(
+                                      CachedNetworkImage(
+                                        imageUrl: '${cubit.categoriesModel!.result![index].coverImage}',
                                         width: 160,
                                         height: 200,
                                         fit: BoxFit.contain,
-                                        '${cubit.categoriesModel!.result![index].coverImage}',
+
                                       ),
                                       const Divider(color: Colors.grey, thickness: .3),
                                       Text(
