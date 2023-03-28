@@ -1,10 +1,8 @@
-class RegisterModel {
-  String? message;
+class ProfileModel {
   Student? student;
 
 
-  RegisterModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
+  ProfileModel.fromJson(Map<String, dynamic> json) {
     student =
     json['Student'] != null ? new Student.fromJson(json['Student']) : null;
   }
@@ -13,26 +11,32 @@ class RegisterModel {
 }
 
 class Student {
+  String? sId;
   String? fullName;
+  String? image;
+  String? cloudinaryId;
   int? code;
   String? email;
   String? phone;
   String? password;
   String? role;
   bool? isverified;
-  String? emailToken;
+  Null? emailToken;
   String? specializationAr;
   String? specializationEn;
-  List<void>? activity;
+  List<Activity>? activity;
   List<void>? trip;
-  String? sId;
   String? createdAt;
   String? updatedAt;
   int? iV;
 
 
+
   Student.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
     fullName = json['fullName'];
+    image=json['image'];
+    cloudinaryId=json['cloudinary_id'];
     code = json['code'];
     email = json['email'];
     phone = json['phone'];
@@ -43,9 +47,9 @@ class Student {
     specializationAr = json['Specialization_ar'];
     specializationEn = json['Specialization_en'];
     if (json['activity'] != null) {
-      activity = <Null>[];
+      activity = <Activity>[];
       json['activity'].forEach((v) {
-        activity!.add(v);
+        activity!.add(new Activity.fromJson(v));
       });
     }
     if (json['trip'] != null) {
@@ -54,7 +58,6 @@ class Student {
         trip!.add(v);
       });
     }
-    sId = json['_id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -62,3 +65,18 @@ class Student {
 
 
 }
+
+class Activity {
+  String? titleAr;
+  String? titleEn;
+
+
+
+  Activity.fromJson(Map<String, dynamic> json) {
+    titleAr = json['title_ar'];
+    titleEn = json['title_en'];
+  }
+
+
+}
+

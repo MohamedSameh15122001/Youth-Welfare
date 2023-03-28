@@ -1,5 +1,6 @@
 
 
+import 'package:thebes_academy/models/enrollModel.dart';
 import 'package:thebes_academy/modules/register.dart';
 
 import '../models/loginModel.dart';
@@ -11,7 +12,10 @@ abstract class AppStates {}
 class InitialState extends AppStates{}
 class ChangeDropDownState extends AppStates{}
 class ChangeSuffixIconState extends AppStates{}
-class GetTokenSuccessState extends AppStates{}
+class RemoveTokenState extends AppStates{}
+class CheckInternetState extends AppStates{}
+class ChangePassState extends AppStates{}
+class UploadPhotoState extends AppStates{}
 
 ///End of General states
 
@@ -22,22 +26,11 @@ class LoginSuccessState extends AppStates{
   LoginSuccessState(this.loginModel);
 }
 class LoginErrorState extends AppStates{
-  final LoginModel loginModel;
-  LoginErrorState(this.loginModel);
 }
 ///End of Login State
 
 //FCM State
 
-
-///LogOut State
-class LogOutLoadingState extends AppStates{}
-class LogOutSuccessState extends AppStates{
-  // final LogOutModel logOutUserModel;
-  // LogOutSuccessState(this.logOutUserModel);
-}
-class LogOutErrorState extends AppStates{}
-///End of LogOut State
 
 ///SignUp State
 class SignUpLoadingState extends AppStates{}
@@ -46,8 +39,6 @@ class SignUpSuccessState extends AppStates{
   SignUpSuccessState(this.registerModel);
 }
 class SignUpErrorState extends AppStates{
-  final RegisterModel registerModel;
-  SignUpErrorState(this.registerModel);
 }
 
 ///Home State
@@ -104,8 +95,8 @@ class ProfileErrorState extends AppStates{}
 ///Update Profile State
 class UpdateProfileLoadingState extends AppStates{}
 class UpdateProfileSuccessState extends AppStates {
-//   final UserModel updateUserModel;
-//   UpdateProfileSuccessState(this.updateUserModel);
+  final EnrollModel updateUserModel;
+  UpdateProfileSuccessState(this.updateUserModel);
  }
 class UpdateProfileErrorState extends AppStates{}
 ///End of Update Profile State
@@ -113,8 +104,8 @@ class UpdateProfileErrorState extends AppStates{}
 ///ChangePassword State
 class ChangePassLoadingState extends AppStates{}
 class ChangePassSuccessState extends AppStates {
-  // final UserModel passUserModel;
-  // ChangePassSuccessState(this.passUserModel);
+  final EnrollModel passUserModel;
+  ChangePassSuccessState(this.passUserModel);
 }
 class ChangePassErrorState extends AppStates{}
 ///End of ChangePassword State
@@ -124,3 +115,33 @@ class NotificationLoadingState extends AppStates{}
 class NotificationSuccessState extends AppStates {}
 class NotificationErrorState extends AppStates{}
 ///End of Notification State
+
+
+///Add Activity State
+class AddActivityLoadingState extends AppStates{}
+class AddActivitySuccessState extends AppStates {
+  final EnrollModel enrollModel;
+  AddActivitySuccessState(this.enrollModel);
+}
+class AddActivityErrorState extends AppStates{}
+///End of Add Activity State
+
+
+///Cancel Activity State
+class CancelActivityLoadingState extends AppStates{}
+class CancelActivitySuccessState extends AppStates {
+  final EnrollModel cancelModel;
+  CancelActivitySuccessState(this.cancelModel);
+}
+class CancelActivityErrorState extends AppStates{}
+///End of Cancel Activity State
+
+
+///Rate State
+class RateLoadingState extends AppStates{}
+class RateSuccessState extends AppStates{
+  final EnrollModel rateModel;
+  RateSuccessState(this.rateModel);
+}
+class RateErrorState extends AppStates{}
+///End of Rate State

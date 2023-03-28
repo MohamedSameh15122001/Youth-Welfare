@@ -30,7 +30,9 @@ class Login extends StatelessWidget {
                 key: 'token',
                 value: state.loginModel!.token
             ).then((value) {
-              showToast(text: '${state.loginModel.message}', state: ToastStates.SUCCESS);
+               token = state.loginModel.token;
+               showToast(text: '${state.loginModel.message}', state: ToastStates.SUCCESS);
+              AppCubit.get(context).getProfileData();
               Navigator.pop(context);
               token = state.loginModel.token;
               emailController.clear();
@@ -39,13 +41,13 @@ class Login extends StatelessWidget {
           }
 
         if(state is LoginErrorState){
-          showToast(text: 'incorrect email or password', state: ToastStates.ERROR);
+          showToast(text: '${AppCubit.get(context).errorModel!.message}', state: ToastStates.ERROR);
         }
       },
       builder:(context,state) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: defaultColor,
+            backgroundColor: primaryColor,
             centerTitle: true,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +82,7 @@ class Login extends StatelessWidget {
                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: AnimationConfiguration.toStaggeredList(
-                          duration: Duration(milliseconds: 600),
+                          duration: const Duration(milliseconds: 600),
                           childAnimationBuilder: (widget) => SlideAnimation(
                             horizontalOffset: 50.0,
                             child: FadeInAnimation(
@@ -90,7 +92,7 @@ class Login extends StatelessWidget {
                           children: [
 
                             const SizedBox(height: 20,),
-                            Text('Ahlan! Welcome back!',style: GoogleFonts.poppins(fontSize: 25,fontWeight: FontWeight.bold,color: defaultColor),),
+                            Text('Ahlan! Welcome back!',style: GoogleFonts.poppins(fontSize: 25,fontWeight: FontWeight.bold,color:primaryColor ),),
                             const SizedBox(height: 30,),
                             defaultFormField(
                                 context: context,
@@ -137,16 +139,16 @@ class Login extends StatelessWidget {
                               alignment: AlignmentDirectional.centerStart,
                               child: TextButton(
                                   onPressed: (){},
-                                  child: Text('Forget Your Password ?',
+                                  child: const Text('Forget Your Password ?',
                                     style: TextStyle(
-                                        color: defaultColor),
+                                        color:primaryColor ),
                                   )
                               ),
                             ),
                             const SizedBox(height: 25,),
                             state is LoginLoadingState ?
-                            Center(child: CircularProgressIndicator(
-                              color: defaultColor,
+                            const Center(child: CircularProgressIndicator(
+                              color: primaryColor,
                             ))
                                 :
                             ClipRRect(
@@ -163,7 +165,7 @@ class Login extends StatelessWidget {
                                 },
                                 minWidth: MediaQuery.of(context).size.width,
                                 height: 50,
-                                color: defaultColor,
+                                color:primaryColor ,
                                 child:  Text(
                                     'LOGIN',
                                     style: GoogleFonts.poppins( color: Colors.white,
@@ -181,7 +183,7 @@ class Login extends StatelessWidget {
                                     onPressed: () {
                                       navigateTo(context, const Register());
                                     },
-                                    child:  Text('Register Now',style: TextStyle(color: defaultColor),)
+                                    child:  const Text('Register Now',style: TextStyle(color: primaryColor),)
                                 ),
                               ],
                             ),

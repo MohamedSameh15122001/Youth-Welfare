@@ -30,29 +30,29 @@ class Register extends StatelessWidget {
   Widget build(BuildContext context) {
     return  BlocConsumer<AppCubit,AppStates>(
         listener:(context,state){
-          if(state is SignUpSuccessState)
-          {
-              showToast(text: '${state.registerModel.message}...Then login now ', state: ToastStates.SUCCESS,time: 7);
-              Navigator.pop(context);
-              email.clear();
-              password.clear();
-              code.clear();
-              name.clear();
-              specialization_ar.clear();
-              specialization_en.clear();
-              phone.clear();
-              confirmPassword.clear();
-
-
-          if(state is SignUpErrorState){
-            showToast(text: 'incorrect the data entered', state: ToastStates.ERROR);
+          if(state is SignUpSuccessState) {
+            showToast(text: '${state.registerModel.message}...Then login',
+                state: ToastStates.WARNING,
+                time: 7);
+            Navigator.pop(context);
+            email.clear();
+            password.clear();
+            code.clear();
+            name.clear();
+            specialization_ar.clear();
+            specialization_en.clear();
+            phone.clear();
+            confirmPassword.clear();
           }
-        } },
+          if(state is SignUpErrorState) {
+            showToast(text: '${AppCubit.get(context).errorModel!.message}', state: ToastStates.ERROR);
+          }
+         },
         builder:(context,state)
         {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: defaultColor,
+              backgroundColor: primaryColor,
               centerTitle: true,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +92,7 @@ class Register extends StatelessWidget {
                           ),
                         ),
                         children: [
-                          Text('Create An Account',style: GoogleFonts.poppins(fontSize: 25,fontWeight: FontWeight.bold,color: defaultColor),),
+                          Text('Create An Account',style: GoogleFonts.poppins(fontSize: 25,fontWeight: FontWeight.bold,color: primaryColor),),
                           const SizedBox(height: 20,),
                           defaultFormField(
                               context: context,
@@ -113,7 +113,7 @@ class Register extends StatelessWidget {
                               keyboardType: TextInputType.number,
                               controller: code,
                               label: 'Code',
-                              prefix: Icons.password_outlined,
+                              prefix: Icons.code,
                               validate: (value)
                               {
                                 if(value!.isEmpty) {
@@ -249,7 +249,7 @@ class Register extends StatelessWidget {
                               },
                               minWidth: MediaQuery.of(context).size.width,
                               height: 50,
-                              color: defaultColor,
+                              color: primaryColor,
                               child:  Text(
                                   'REGISTER',
                                   style: GoogleFonts.poppins( color: Colors.white,

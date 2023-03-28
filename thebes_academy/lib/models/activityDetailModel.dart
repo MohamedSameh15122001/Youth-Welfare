@@ -24,9 +24,10 @@ class Result {
   String? createdAt;
   String? updatedAt;
   int? iV;
-
+  int? averageRating;
 
   Result.fromJson(Map<String, dynamic> json) {
+    averageRating = json['averageRating'] ?? 0;
     sId = json['_id'];
     titleAr = json['title_ar'];
     descriptionAr = json['description_ar'];

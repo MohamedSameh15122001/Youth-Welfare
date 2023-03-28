@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:thebes_academy/cubit/appCubit.dart';
+import 'package:thebes_academy/cubit/states.dart';
+
+import '../remoteNetwork/cacheHelper.dart';
 
 
 
@@ -42,7 +46,7 @@ Color chooseToastColor(ToastStates state)
       color = Colors.red;
       break;
     case ToastStates.WARNING:
-      color = Colors.amber;
+      color = Colors.yellow;
       break;
   }
 
@@ -81,19 +85,35 @@ Widget myDivider() => Container(
       width: double.infinity,
     );
 
-// void signOut(context) {
-//   CacheHelper.removeData('token').then((value) {
-//     navigateAndKill(context, LoginScreen());
-//     ShopCubit.get(context).currentIndex = 0;
-//   });
-// }
+void signOut(context) {
+  CacheHelper.removeData('token').then((value) {
+    token=null;
+    AppCubit.get(context).RA =[];
+    AppCubit.get(context).emit(RemoveTokenState());
+  });
+}
+
+const MaterialColor primaryColor = MaterialColor(
+  0xFF0D47A1,
+  <int, Color>{
+    50: Color(0xFFE3F2FD),
+    100: Color(0xFFBBDEFB),
+    200: Color(0xFF90CAF9),
+    300: Color(0xFF64B5F6),
+    400: Color(0xFF42A5F5),
+    500: Color(0xFF2196F3),
+    600: Color(0xFF1E88E5),
+    700: Color(0xFF1976D2),
+    800: Color(0xFF1565C0),
+    900: Color(0xFF0D47A1),
+  },
+);
 
 
 
 
-
-Color defaultColor = Colors.blue[800]!;
-
-String? token = '';
+String? token;
 String lang ='ar';
 String specialization='Computer Science';
+
+List<String> s=["التبرع بالدم","التكافل الاجتماعي","زياره ملاجئ الايتام"];

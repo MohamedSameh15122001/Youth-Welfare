@@ -1,28 +1,39 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:thebes_academy/cubit/states.dart';
 import 'package:thebes_academy/models/categoriesModel.dart';
+import 'package:thebes_academy/models/errorModel.dart';
 import 'package:thebes_academy/models/loginModel.dart';
 import 'package:thebes_academy/remoteNetwork/endPoints.dart';
-
 import '../models/activitiesModel.dart';
 import '../models/activityDetailModel.dart';
 import '../models/categoryDetailModel.dart';
+import '../models/enrollModel.dart';
 import '../models/homeModel.dart';
+import '../models/profileModel.dart';
 import '../models/registerModel.dart';
+import '../modules/activityDetail.dart';
 import '../remoteNetwork/dioHelper.dart';
+import '../shared/constants.dart';
 
 class AppCubit extends Cubit<AppStates>{
   AppCubit() : super(InitialState());
 
   static AppCubit get(context) => BlocProvider.of(context);
+  List<String> RA=[];
+  ErrorModel? errorModel ;
+  /////////////////////////////////////////////////////////////////////
 
   HomeModel? homeModel;
   void getHomeData() {
     emit(HomeLoadingState());
-     Dio().get('https://actitvityv1.onrender.com').then((value)  {
+     Dio().get('https://actitvityv1.onrender.com',queryParameters: {'lang':lang}).then((value)  {
      homeModel = HomeModel.fromJson(value.data);
      // print(value.data);
     emit(HomeSuccessState());
@@ -33,12 +44,14 @@ class AppCubit extends Cubit<AppStates>{
 
   }
 
+/////////////////////////////////////////////////////////////////////
+
   CategoriesModel? categoriesModel;
   void getCategoryData() {
     emit(CategoriesLoadingState());
     DioHelper.getData(
       url: Categories,
-      query: {'lang':'ar'}
+      query: {'lang':lang}
     ).then((value){
       categoriesModel = CategoriesModel.fromJson(value.data);
       // print(categoriesModel!.result![0].titleAr);
@@ -49,6 +62,8 @@ class AppCubit extends Cubit<AppStates>{
     });
   }
 
+  /////////////////////////////////////////////////////////////////////
+
 
   CategoryDetailModel? categoriesDetailModel;
   void getCategoriesDetailData( String? categoryID ) {
@@ -56,7 +71,7 @@ class AppCubit extends Cubit<AppStates>{
     emit(CategoryDetailsLoadingState());
     DioHelper.getData(
         url:'$Categories/$categoryID',
-        query: {'lang':'ar'}
+        query: {'lang':lang}
     ).then((value){
       categoriesDetailModel = CategoryDetailModel.fromJson(value.data);
       // print('${categoriesDetailModel!.result!.titleAr}');
@@ -67,12 +82,14 @@ class AppCubit extends Cubit<AppStates>{
     });
   }
 
+  /////////////////////////////////////////////////////////////////////
+
   ActivitiesModel? activitiesModel;
   void getActivityData(String? categoryID) {
     emit(ActivitiesLoadingState());
     DioHelper.getData(
         url: '$Categories/$categoryID/$Activities',
-        query: {'lang':'ar'}
+        query: {'lang':lang}
     ).then((value){
       activitiesModel = ActivitiesModel.fromJson(value.data);
        // print(activitiesModel!.result![0].titleAr);
@@ -83,17 +100,20 @@ class AppCubit extends Cubit<AppStates>{
     });
   }
 
+  /////////////////////////////////////////////////////////////////////
+
 
   ActivityDetailModel? activitiesDetailModel;
-  void getActivitiesDetailData( String? categoryID,String? activityID ) {
+  void getActivitiesDetailData( String? categoryID,String? activityID,) {
     activitiesDetailModel=null;
     emit(ActivitiesDetailsLoadingState());
     DioHelper.getData(
         url:'$Categories/$categoryID/$Activities/$activityID',
-        query: {'lang':'ar'}
+        query: {'lang':lang}
     ).then((value){
       activitiesDetailModel = ActivityDetailModel.fromJson(value.data);
        // print('${activitiesDetailModel!.result!.titleAr}');
+
       emit(ActivitiesDetailsSuccessState());
     }).catchError((error){
       emit(ActivitiesDetailsErrorState());
@@ -109,21 +129,24 @@ class AppCubit extends Cubit<AppStates>{
     required String password,
   }) {
     emit(LoginLoadingState());
+
     DioHelper.postData(
-      query: {'lang':'ar'},
+      query: {'lang':lang},
         url: Login,
         data:
         {
-          'email': '$email',
-          'password': '$password',
+          'email': email,
+          'password': password,
         }).then((value) {
       loginModel = LoginModel.fromJson(value.data);
       // print('${loginModel!.message}');
-
-      emit(LoginSuccessState(loginModel!));
+        emit(LoginSuccessState(loginModel!));
     }).catchError((error) {
-      print(error.toString());
-      emit(LoginErrorState(loginModel!));
+      if(error is DioError)
+        if(error.response!.statusCode==401) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
+      emit(LoginErrorState());
     });
   }
 
@@ -151,29 +174,33 @@ class AppCubit extends Cubit<AppStates>{
     required String password,
     required String specialization_ar,
     required String specialization_en,
-
   }) {
     emit(SignUpLoadingState());
     DioHelper.postData(
         url: Register,
-        query: {'lang':'ar'},
+        query: {'lang':lang},
         data:
         {
-          'full_name': '$fullName',
-          'code':'$code',
-          'email': '$email',
-          'phone': '$phone',
-          'password': '$password',
-          'Specialization_ar' : '$specialization_ar',
-        'Specialization_en' : '$specialization_en'
+          'fullName': fullName,
+          'code':code,
+          'email': email,
+          'phone': phone,
+          'password': password,
+          'Specialization_ar' : specialization_ar,
+        'Specialization_en' : specialization_en
         }).then((value) {
       registerModel = RegisterModel.fromJson(value.data);
-      print('${registerModel!.message}');
+      // print('${registerModel!.message}');
 
       emit(SignUpSuccessState(registerModel!));
     }).catchError((error) {
-      print(error.toString());
-      emit(SignUpErrorState(registerModel!));
+      print('$error');
+      if(error is DioError)
+        if(error.response!.statusCode==401) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+          print('${errorModel!.message}');
+        }
+      emit(SignUpErrorState());
     });
   }
 
@@ -201,5 +228,223 @@ class AppCubit extends Cubit<AppStates>{
     emit(ChangeSuffixIconState());
   }
 
+  /////////////////////////////////////////////////////////////////////
+
+  ProfileModel? profileModel;
+  void getProfileData() {
+    emit(ProfileLoadingState());
+    DioHelper.getData(
+      query: {'lang':lang},
+      token: '$token',
+      url: Profile,
+    ).then((value){
+      profileModel = ProfileModel.fromJson(value.data);
+
+      RA=[];
+      var num=profileModel!.student!.activity!.length;
+      for(var l=0;l<num;l++) {
+        RA.add('${profileModel!.student!.activity![l].titleAr}');
+      }
+
+      emit(ProfileSuccessState());
+    }).catchError((error){
+      emit(ProfileErrorState());
+      print(error.toString());
+    });
+  }
+
+/////////////////////////////////////////////////////////////////////
+
+
+  EnrollModel? enrollModel;
+  void addActivity({String? categoryID,String? activityID}){
+    emit(AddActivityLoadingState());
+    DioHelper.postData(
+        url: '$Categories/$categoryID/$Activities/$activityID/$Enroll',
+        token: token,
+    ).then((value){
+      enrollModel = EnrollModel.fromJson(value.data);
+      getProfileData();
+      emit(AddActivitySuccessState(enrollModel!));
+    }).catchError((error){
+      if(error is DioError)
+        if(error.response!.statusCode==401) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
+      emit(AddActivityErrorState());
+      print(error.toString());
+    });
+  }
+
+/////////////////////////////////////////////////////////////////////
+
+  EnrollModel? cancelModel;
+  void cancelActivity({String? categoryID,String? activityID}){
+    emit(CancelActivityLoadingState());
+    DioHelper.postData(
+      url: '$Categories/$categoryID/$Activities/$activityID/$Cancel',
+      token: token,
+    ).then((value){
+      cancelModel = EnrollModel.fromJson(value.data);
+      getProfileData();
+      emit(CancelActivitySuccessState(cancelModel!));
+    }).catchError((error){
+      emit(CancelActivityErrorState());
+      print(error.toString());
+    });
+  }
+
+/////////////////////////////////////////////////////////////////////
+
+  EnrollModel? updateUserModel;
+  void updateProfileData({
+    required String name,
+    required String? image,
+    required String code,
+    required String phone,
+    required String specialization_ar,
+    required String specialization_en,
+  }) {
+    emit(UpdateProfileLoadingState());
+    DioHelper.putData(
+        url: UpdateProfile,
+        token: token,
+        data: {
+          'fullName':name,
+          'image': image ?? profileModel!.student!.image,
+          'code': code,
+          'phone': phone,
+          'Specialization_ar' : specialization_ar,
+          'Specialization_en' : specialization_en
+
+        }
+    ).then((value){
+      updateUserModel = EnrollModel.fromJson(value.data);
+      getProfileData();
+      emit(UpdateProfileSuccessState(updateUserModel!));
+    }).catchError((error){
+      emit(UpdateProfileErrorState());
+      print(error.toString());
+    });
+  }
+
+  /////////////////////////////////////////////////////////////////////
+
+  File? file;
+  String? imageName;
+  Future uploadPhoto() async{
+    final myfile = await ImagePicker().getImage(source:ImageSource.gallery );
+    file=File(myfile!.path);
+   imageName= file!.path.split(':').last;
+   emit(UploadPhotoState());
+  }
+
+
+
+
+/////////////////////////////////////////////////////////////////////
+
+  EnrollModel? passwordModel;
+  void updatePassword({
+    required context,
+    required String oldPass,
+    required String newPass
+  }) async {
+    emit(ChangePassLoadingState());
+    DioHelper.putData(
+        url: UpdatePass,
+        token: token,
+        data: {
+          'oldPassword':oldPass,
+          'newPassword': newPass,
+        }
+    ).then((value){
+      passwordModel = EnrollModel.fromJson(value.data);
+      emit(ChangePassSuccessState(passwordModel!));
+    }).catchError((error){
+      if(error is DioError)
+        if(error.response!.statusCode==401) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
+      emit(ChangePassErrorState());
+      print(error.toString());
+    });
+  }
+
+  bool show =false;
+  String passButton='Change Password';
+  void changePassword(){
+    show =!show;
+    if(show==false){
+      passButton ='Change Password';
+    }else{
+      passButton ='Save Password';
+    }
+    emit(ChangePassState());
+  }
+
+
+  bool showOldPassword = true;
+  IconData suffixIconOld = Icons.visibility;
+  void changeSuffixIcon_Old(context){
+    showOldPassword =! showOldPassword;
+    if(showOldPassword==false) {
+      suffixIconOld = Icons.visibility_off;
+    } else {
+      suffixIconOld = Icons.visibility;
+    }
+    emit(ChangeSuffixIconState());
+  }
+
+
+  bool showNewPassword = true;
+  IconData SuffixIconNew = Icons.visibility;
+  void changeSuffixIcon_New(context){
+    showNewPassword =! showNewPassword;
+    if(showNewPassword==false) {
+      SuffixIconNew = Icons.visibility_off;
+    } else {
+      SuffixIconNew = Icons.visibility;
+    }
+    emit(ChangeSuffixIconState());
+  }
+
+
+  bool showConfirmNewPassword = true;
+  IconData confirmSuffixIconNew = Icons.visibility;
+  void changeConfirmSuffixIcon_New(context){
+    showConfirmNewPassword =! showConfirmNewPassword;
+    if(showConfirmNewPassword==false) {
+      confirmSuffixIconNew = Icons.visibility_off;
+    } else {
+      confirmSuffixIconNew = Icons.visibility;
+    }
+    emit(ChangeSuffixIconState());
+  }
+
+/////////////////////////////////////////////////////////////////////
+
+  EnrollModel? rateModel;
+  void setRate({String? categoryID,String? activityID, double? rate}){
+    emit(RateLoadingState());
+    DioHelper.postData(
+      url: '$Categories/$categoryID/$Activities/$activityID/$Rate',
+      token: token,
+      data: {
+        'rate':rate ?? Rating
+      }
+    ).then((value){
+      rateModel = EnrollModel.fromJson(value.data);
+      emit(RateSuccessState(rateModel!));
+    }).catchError((error){
+      if(error is DioError)
+        if(error.response!.statusCode==401 || error.response!.statusCode==400) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
+
+      emit(RateErrorState());
+      print(error.toString());
+    });
+  }
 
 }

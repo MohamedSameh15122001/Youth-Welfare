@@ -28,8 +28,7 @@ class Category extends StatelessWidget {
           var cubit =AppCubit.get(context);
         return Scaffold(
           appBar: AppBar(
-
-            backgroundColor: Colors.blue[800],
+            backgroundColor: primaryColor,
             centerTitle: true,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -116,8 +115,8 @@ class Category extends StatelessWidget {
                               ),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * .4,
-                                child: Divider(
-                                  color: Colors.blue[800],
+                                child: const Divider(
+                                  color: primaryColor,
                                   thickness: 5,
                                 ),
                               ),
@@ -137,13 +136,13 @@ class Category extends StatelessWidget {
                                   '${cubit.categoriesDetailModel!.result!.descriptionAr}',
                                   trimLines: 10,
                                   // textAlign: TextAlign.left,
-                                  lessStyle: TextStyle(
+                                  lessStyle: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.blue[800],
+                                    color: primaryColor,
                                   ),
-                                  moreStyle: TextStyle(
+                                  moreStyle: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.blue[800],
+                                    color: primaryColor,
                                   ),
                                   trimMode: TrimMode.Line,
                                   trimCollapsedText: " Show More ",
@@ -155,8 +154,8 @@ class Category extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Divider(
-                                color: Colors.blue[800],
+                              const Divider(
+                                color: primaryColor,
                                 thickness: 5,
                               ),
                               const SizedBox(height: 20),
@@ -173,22 +172,22 @@ class Category extends StatelessWidget {
                                   shrinkWrap:true,
                                   childAspectRatio: .6,
                                   crossAxisSpacing: 12,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  padding: const EdgeInsets.symmetric(vertical: 20),
                                   crossAxisCount: 3,
                                   children: List.generate(
                                     cubit.activitiesModel!.result!.length,
                                         (int index) {
                                       return AnimationConfiguration.staggeredGrid(
                                         position: index,
-                                        duration: Duration(milliseconds: 500),
+                                        duration: const Duration(milliseconds: 500),
                                         columnCount: 3,
                                         child: ScaleAnimation(
-                                          duration: Duration(milliseconds: 900),
+                                          duration: const Duration(milliseconds: 900),
                                           curve: Curves.fastLinearToSlowEaseIn,
                                           child: FadeInAnimation(
                                             child: ClipRRect(
-                                              borderRadius: BorderRadius.all(Radius.circular(40)),
+                                              borderRadius: const BorderRadius.all(Radius.circular(40)),
                                               child: GestureDetector(
                                                 onTap: () {
                                                   cubit.getActivitiesDetailData(cubit.categoriesDetailModel!.result!.sId,cubit.activitiesModel!.result![index].sId );
@@ -249,7 +248,7 @@ class Category extends StatelessWidget {
                 ),
               ),
             ),
-            fallbackBuilder:(context) => Center(child: CircularProgressIndicator(),),
+            fallbackBuilder:(context) => const Center(child: CircularProgressIndicator(),),
           )
 
         );

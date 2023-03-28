@@ -88,8 +88,8 @@ class Home extends StatelessWidget {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .4,
-                          child: Divider(
-                            color: Colors.blue[800],
+                          child: const Divider(
+                            color: primaryColor,
                             thickness: 5,
                           ),
                         ),

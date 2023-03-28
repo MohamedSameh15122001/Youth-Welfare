@@ -7,13 +7,15 @@ import 'package:thebes_academy/remoteNetwork/cacheHelper.dart';
 import 'package:thebes_academy/remoteNetwork/dioHelper.dart';
 import 'package:thebes_academy/shared/bloc_observer.dart';
 import 'package:thebes_academy/shared/constants.dart';
+import 'package:thebes_academy/shared/test.dart';
 
 import 'cubit/appCubit.dart';
 import 'layouts/layout.dart';
 
-Future<void> main() async{
+Future<void> main(context) async{
   WidgetsFlutterBinding.ensureInitialized();
 
+  await internetConection(context);
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
@@ -30,24 +32,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: defaultColor,
+      const SystemUiOverlayStyle(
+        statusBarColor: primaryColor,
       ),
     );
     return BlocProvider(
-      create: (context) => AppCubit()..getHomeData()..getCategoryData(),
+      create: (context) => AppCubit()..getHomeData()..getCategoryData()..getProfileData(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'graduation project',
         theme: ThemeData(
+         primarySwatch: primaryColor,
           scaffoldBackgroundColor: Colors.white,
-          primaryColor: defaultColor,
+          primaryColor: primaryColor,
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             centerTitle: true,
-            color: defaultColor,
+            color: primaryColor,
           ),
         ),
         home: splashScreen(),
@@ -58,13 +61,13 @@ class MyApp extends StatelessWidget {
   Widget splashScreen() => SplashScreenView(
         navigateRoute: const Layout(),
         duration: 4000,
-        imageSize: 200,
-        imageSrc: "lib/assets/images/header.png",
+        imageSize: 300,
+        imageSrc: "lib/assets/images/logo.jpeg",
         text: "  ",
         textType: TextType.ScaleAnimatedText,
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
           fontSize: 38.0,
-          color: defaultColor ,
+          color: primaryColor ,
           fontWeight: FontWeight.w900,
         ),
         backgroundColor: Colors.white,

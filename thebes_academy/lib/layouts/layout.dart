@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thebes_academy/cubit/appCubit.dart';
 import 'package:thebes_academy/modules/categorys.dart';
 import 'package:thebes_academy/modules/home.dart';
 import 'package:thebes_academy/modules/profile.dart';
+import 'package:thebes_academy/shared/test.dart';
 
+import '../modules/noConnection.dart';
 import '../shared/constants.dart';
+
+
+List<Widget> layoutPage = [
+  Home(),
+  Categorys(),
+  const Profile(),
+];
+int currentPage = 0;
 
 class Layout extends StatefulWidget {
   const Layout({super.key});
@@ -14,17 +25,12 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> {
-  List<Widget> layoutPage = [
-    Home(),
-    Categorys(),
-    const Profile(),
-  ];
-  int currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:defaultColor,
+        backgroundColor:primaryColor,
         centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -44,9 +50,12 @@ class _LayoutState extends State<Layout> {
         ),
       ),
       drawer: Drawer(
+        backgroundColor: Colors.white,
         child: ListView(
           children: [
-            DrawerHeader(child: Image.asset('lib/assets/images/header.png')),
+            DrawerHeader(child: Image.asset('lib/assets/images/header.png',)),
+            const SizedBox(height: 30,),
+
             ListTile(
               onTap: () {},
               leading: const Icon(
@@ -80,6 +89,27 @@ class _LayoutState extends State<Layout> {
                 ],
               ),
             ),
+            const SizedBox(height: 10,),
+            Container(
+              height: 40,
+              child: TextButton(
+
+                // color: primaryColor,
+                child: const Text(
+                  'SIGN OUT',
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontSize: 20,
+                  ),
+                ),
+                onPressed: (){
+                  signOut(context);
+                  Navigator.pop(context);
+                  AppCubit.get(context).getProfileData();
+                },
+
+              ),
+            ),
           ],
         ),
       ),
@@ -97,7 +127,7 @@ class _LayoutState extends State<Layout> {
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
-        selectedItemColor:defaultColor ,
+        selectedItemColor:primaryColor ,
         unselectedItemColor: Colors.grey[500],
         backgroundColor: Colors.white,
         elevation: 10,
@@ -108,6 +138,7 @@ class _LayoutState extends State<Layout> {
               Icons.home,
             ),
             label: 'Home',
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.category),
@@ -119,7 +150,7 @@ class _LayoutState extends State<Layout> {
           ),
         ],
       ),
-      body: layoutPage[currentPage],
+      body:isNetworkConnection==true ? layoutPage[currentPage] : const NoConnection(),
     );
   }
 

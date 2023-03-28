@@ -18,17 +18,15 @@ class DioHelper
   }
   static Future<Response> getData ({
     required String url,
-    required Map<String,dynamic> query,
+     Map<String,dynamic>? query,
     String ?token,
     Map<String,dynamic> ?data,
   })async
   {
-    // dio.options.headers =
-    // {
-    //   'lang':lang,
-    //   'Content-Type':'application/json',
-    //   'Authorization' : '$token'
-    // };
+    dio.options.headers =
+    {
+      'token' : '$token'
+    };
     return await dio.get(
         url,
         queryParameters: query
@@ -37,17 +35,15 @@ class DioHelper
 
   static Future<Response> postData ({
     required String url,
-     Map<String,dynamic>? query,
+    Map<String,dynamic>? query,
     Map<String,dynamic> ?data,
     String ?token
   })async
   {
-    // dio.options.headers =
-    // {
-    //   'lang':lang,
-    //   'Content-Type':'application/json',
-    //   'Authorization' : '$token'
-    // };
+    dio.options.headers =
+    {
+      'token' : token
+    };
     return await dio.post(
         url,
         queryParameters: query,
@@ -58,17 +54,15 @@ class DioHelper
 
   static Future<Response> putData ({
     required String url,
-    required Map<String,dynamic> query,
+     Map<String,dynamic>? query,
     Map<String,dynamic> ?data,
     String ?token
   })async
   {
-    // dio.options.headers =
-    // {
-    //   'lang':lang,
-    //   'Content-Type':'application/json',
-    //   'Authorization' : '$token'
-    // };
+    dio.options.headers =
+    {
+      'token' : '$token'
+    };
     return await dio.put(
       url,
       queryParameters: query,
@@ -81,12 +75,10 @@ class DioHelper
     String ?token
   })async
   {
-    // dio.options.headers =
-    // {
-    //   'lang':lang,
-    //   'Content-Type':'application/json',
-    //   'Authorization' : '$token'
-    // };
+    dio.options.headers =
+    {
+      'token' : '$token'
+    };
     return await dio.delete(url);
   }
 }

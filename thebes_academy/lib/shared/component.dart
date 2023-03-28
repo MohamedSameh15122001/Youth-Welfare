@@ -37,7 +37,7 @@ Widget defaultFormField({
       //textCapitalization: TextCapitalization.words,
 
       decoration: InputDecoration(
-        iconColor: defaultColor,
+        iconColor: primaryColor,
         hintText: label,
         border:UnderlineInputBorder(),
         prefixIcon: Icon(prefix,),
@@ -55,7 +55,7 @@ Widget defaultButton({
   height: 40,
   width: width,
   decoration: BoxDecoration(
-    color: defaultColor,
+    color: primaryColor,
   ),
   child: ElevatedButton(
 
