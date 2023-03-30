@@ -152,7 +152,7 @@ class Profile extends StatelessWidget {
                               if (cubit
                                   .profileModel!.student!.activity!.isNotEmpty)
                                 SizedBox(
-                                  height: 100,
+                                  height: 120,
                                   width: MediaQuery.of(context).size.width,
                                   child: ListView(
                                     physics:
