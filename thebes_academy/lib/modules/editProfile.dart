@@ -27,8 +27,7 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    specializationController.text =
-        AppCubit.get(context).profileModel!.student!.specializationAr!;
+    specializationController.text = AppCubit.get(context).profileModel!.student!.specializationAr!;
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         if (state is UpdateProfileSuccessState) {
@@ -81,9 +80,14 @@ class EditProfile extends StatelessWidget {
                 ),
                 Text(getLang(context, 'layoutTitle1'),
                     style: GoogleFonts.poppins()),
-                const SizedBox(
-                  width: 30,
-                ),
+                if(lang =='ar')
+                  const SizedBox(
+                    width: 76,
+                  ),
+                if(lang =='en')
+                  const SizedBox(
+                    width: 30,
+                  ),
               ],
             ),
           ),
@@ -270,24 +274,7 @@ class EditProfile extends StatelessWidget {
                                   ),
                                   const Spacer(),
                                   DropdownButton(
-                                    items: [
-                                      "Computer Science",
-                                      getLang(context,
-                                              'registerSpecializationAccounting')
-                                          as String,
-                                      getLang(context,
-                                              'registerSpecializationEngineer')
-                                          as String,
-                                      getLang(context,
-                                              'registerSpecializationAdministrative')
-                                          as String,
-                                      getLang(context,
-                                              'registerSpecializationBusinessManagement')
-                                          as String,
-                                      getLang(context,
-                                              'registerSpecializationBusinessMarketing')
-                                          as String,
-                                    ].map((valueItem) {
+                                    items: items.map((valueItem) {
                                       return DropdownMenuItem(
                                         value: valueItem,
                                         child: Text(

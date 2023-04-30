@@ -18,5 +18,10 @@ const UpdatePass='students/myProfile/changePassword';
 
 const Rate='rate';
 
+const Trips='trips';
+
+const RestPass='students/verifyCode';
+
+const SetEmailEnd='students/resetPass';
 
 

@@ -21,9 +21,10 @@ void showToast({
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: time,
-      backgroundColor: chooseToastColor(state),
+      backgroundColor: primaryColor,
       textColor: Colors.white,
       fontSize: 16.0,
+
     );
 
 // enum
@@ -106,7 +107,17 @@ const MaterialColor primaryColor = MaterialColor(
 
 String? token;
 String lang = CacheHelper.getData('lang') ?? 'ar';
-String specialization =
-    CacheHelper.getData('lang') == 'en' ? 'Computer Science' : 'علوم حاسب';
+String specialization = 'علوم حاسب';
 
-List<String> s = ["التبرع بالدم", "التكافل الاجتماعي", "زياره ملاجئ الايتام"];
+// List<String> s = ["التبرع بالدم", "التكافل الاجتماعي", "زياره ملاجئ الايتام"];
+
+
+
+List<String> items = [
+"علوم حاسب",
+"محاسبة",
+"هندسة",
+"نظم المعلومات الادارية",
+"ادارة الاعمال",
+"تسويق",
+];

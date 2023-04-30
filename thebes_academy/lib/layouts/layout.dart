@@ -40,9 +40,14 @@ class _LayoutState extends State<Layout> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                if(lang =='ar')
                 const SizedBox(
-                  width: 22,
+                  width: 34,
                 ),
+                if(lang =='en')
+                  const SizedBox(
+                    width: 22,
+                  ),
                 Text(
                   getLang(context, "layoutTitle2"),
                   style: GoogleFonts.poppins(),
@@ -59,6 +64,9 @@ class _LayoutState extends State<Layout> {
                     style: GoogleFonts.poppins()),
               ],
             ),
+            // actions: [
+            //   Icon(Icons.notifications),
+            // ],
           ),
           drawer: Drawer(
             backgroundColor: Colors.white,

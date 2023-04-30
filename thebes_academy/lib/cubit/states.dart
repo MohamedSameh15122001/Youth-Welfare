@@ -169,5 +169,39 @@ class RateErrorState extends AppStates {}
 
 ///End of Rate State
 
+///Trips State
+class TripsLoadingState extends AppStates {}
+
+class TripsSuccessState extends AppStates {}
+
+class TripsErrorState extends AppStates {}
+
+///End of Trips State
+
+///Rest State
+class SetEmailLoadingState extends AppStates {}
+
+class SetEmailSuccessState extends AppStates {
+  final EnrollModel setEmailModel;
+  SetEmailSuccessState(this.setEmailModel);
+}
+
+class SetEmailErrorState extends AppStates {}
+
+///End of Rest State
+
+
+///Rest State
+class RestLoadingState extends AppStates {}
+
+class RestSuccessState extends AppStates {
+  final EnrollModel restPassModel;
+  RestSuccessState(this.restPassModel);
+}
+
+class RestErrorState extends AppStates {}
+
+///End of Rest State
+
 ///change language
 class ChangeLanguage extends AppStates {}

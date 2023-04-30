@@ -74,9 +74,14 @@ class ActivityDetails extends StatelessWidget {
                   ),
                   Text(getLang(context, "layoutTitle1"),
                       style: GoogleFonts.poppins()),
-                  const SizedBox(
-                    width: 30,
-                  ),
+                  if(lang =='ar')
+                    const SizedBox(
+                      width: 76,
+                    ),
+                  if(lang =='en')
+                    const SizedBox(
+                      width: 30,
+                    ),
                 ],
               ),
             ),

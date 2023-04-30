@@ -66,9 +66,14 @@ class Register extends StatelessWidget {
               ),
               Text(getLang(context, 'layoutTitle1'),
                   style: GoogleFonts.poppins()),
-              const SizedBox(
-                width: 30,
-              ),
+              if(lang =='ar')
+                const SizedBox(
+                  width: 76,
+                ),
+              if(lang =='en')
+                const SizedBox(
+                  width: 30,
+                ),
             ],
           ),
         ),
@@ -225,23 +230,7 @@ class Register extends StatelessWidget {
                             const Spacer(),
                             // const SizedBox(width: 50),
                             DropdownButton(
-                              items: [
-                                "Computer Science",
-                                getLang(context,
-                                        'registerSpecializationAccounting')
-                                    as String,
-                                getLang(context,
-                                    'registerSpecializationEngineer') as String,
-                                getLang(context,
-                                        'registerSpecializationAdministrative')
-                                    as String,
-                                getLang(context,
-                                        'registerSpecializationBusinessManagement')
-                                    as String,
-                                getLang(context,
-                                        'registerSpecializationBusinessMarketing')
-                                    as String,
-                              ].map((valueItem) {
+                              items: items.map((valueItem) {
                                 return DropdownMenuItem(
                                   value: valueItem,
                                   child: Text(

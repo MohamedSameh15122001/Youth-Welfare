@@ -6,6 +6,7 @@ import 'package:thebes_academy/cubit/appCubit.dart';
 import 'package:thebes_academy/layouts/layout.dart';
 
 import '../cubit/states.dart';
+import '../shared/applocale.dart';
 import '../shared/constants.dart';
 import '../shared/test.dart';
 
@@ -23,10 +24,10 @@ class NoConnection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('No connection',style: GoogleFonts.poppins(fontSize: 25),),
+            Text(getLang(context, "No connection"),style: GoogleFonts.poppins(fontSize: 25),),
             SizedBox(height: 20,),
             Icon(Icons.wifi,size: 170,color: Colors.grey,),
-            Text('An internet error occurred, please try again',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w300),),
+            Text(getLang(context, "An internet error"),style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w300),),
             SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.all(15.0),
@@ -45,7 +46,7 @@ class NoConnection extends StatelessWidget {
                   minWidth: MediaQuery.of(context).size.width,
                   height: 50,
                   color: primaryColor,
-                  child: Text('TRY AGAIN',
+                  child: Text(getLang(context, "TRY AGAIN"),
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 20,

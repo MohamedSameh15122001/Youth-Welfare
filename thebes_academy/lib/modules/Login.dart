@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thebes_academy/layouts/layout.dart';
 import 'package:thebes_academy/modules/register.dart';
+import 'package:thebes_academy/modules/restPass.dart';
 import 'package:thebes_academy/shared/applocale.dart';
 
 import '../cubit/appCubit.dart';
@@ -13,7 +15,11 @@ import '../shared/constants.dart';
 
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
+TextEditingController emailController2 = TextEditingController();
+
 var loginFormKey = GlobalKey<FormState>();
+var dialogKey = GlobalKey<FormState>();
+
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -30,7 +36,7 @@ class Login extends StatelessWidget {
                 text: '${state.loginModel.message}',
                 state: ToastStates.SUCCESS);
             AppCubit.get(context).getProfileData();
-            Navigator.pop(context);
+            navigateAndKill(context, const Layout());
             token = state.loginModel.token;
             emailController.clear();
             passwordController.clear();
@@ -42,10 +48,26 @@ class Login extends StatelessWidget {
               text: '${AppCubit.get(context).errorModel!.message}',
               state: ToastStates.ERROR);
         }
+
+        if (state is SetEmailSuccessState)
+          {
+            showToast(text: '${AppCubit.get(context).setEmailModel!.message}', state: ToastStates.SUCCESS);
+            Navigator.pop(context);
+            navigateTo(context,  RestPass(emailController2.text));
+            emailController2.clear();
+          }
+
+        if (state is SetEmailErrorState)
+        {
+          showToast(
+              text: '${AppCubit.get(context).errorModel!.message}',
+              state: ToastStates.ERROR);
+        }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(onPressed: () { navigateAndKill(context, Layout()); }, icon: Icon(Icons.arrow_back),),
             backgroundColor: primaryColor,
             centerTitle: true,
             title: Row(
@@ -63,9 +85,14 @@ class Login extends StatelessWidget {
                 ),
                 Text(getLang(context, "layoutTitle1"),
                     style: GoogleFonts.poppins()),
-                const SizedBox(
-                  width: 30,
-                ),
+                if(lang =='ar')
+                  const SizedBox(
+                    width: 76,
+                  ),
+                if(lang =='en')
+                  const SizedBox(
+                    width: 30,
+                  ),
               ],
             ),
           ),
@@ -149,7 +176,78 @@ class Login extends StatelessWidget {
                               width: double.infinity,
                               alignment: AlignmentDirectional.centerStart,
                               child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => Form(
+                                          key: dialogKey,
+                                          child: AlertDialog(
+                                            insetPadding: EdgeInsets.zero,
+                                            contentPadding: const EdgeInsets.all(30),
+                                            title: Text(getLang(context, 'Enter your email'), style: GoogleFonts.poppins(
+                                                  color:
+                                                  primaryColor,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w600),
+                                            ),
+                                            content: Column(
+                                              mainAxisSize:
+                                              MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                defaultFormField(
+                                                    context: context,
+                                                    controller: emailController2,
+                                                    keyboardType: TextInputType.emailAddress,
+                                                    label: getLang(context, 'loginEmail'),
+                                                    prefix: Icons.email,
+                                                    validate: (value) {
+                                                      if (value!.isEmpty) {
+                                                        return getLang(
+                                                            context, 'loginEmailMustFilled')
+                                                        as String;
+                                                      }
+                                                    }),
+                                                 const SizedBox(height: 15,),
+                                                 Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    OutlinedButton(
+                                                        onPressed:
+                                                            () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          emailController2.clear();
+                                                        },
+                                                        child: Text(
+                                                            getLang(
+                                                                context,
+                                                                'activityRateCancelButton'),
+                                                            style: GoogleFonts.poppins(
+                                                                color: primaryColor,
+                                                                fontWeight: FontWeight.w500))),
+                                                    OutlinedButton(
+                                                        onPressed: () {
+                                                          if(dialogKey.currentState!.validate()) {
+                                                            AppCubit.get(context).setEmail(email: emailController2.text);
+                                                          }
+                                                        },
+                                                        child: Text(
+                                                            getLang(
+                                                                context,
+                                                                'activityRateDoneButton'),
+                                                            style: GoogleFonts.poppins(
+                                                                color: primaryColor,
+                                                                fontWeight: FontWeight.w500)))
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ));
+                                  },
                                   child: Text(
                                     getLang(context, 'loginForgetPassword'),
                                     style: const TextStyle(color: primaryColor),

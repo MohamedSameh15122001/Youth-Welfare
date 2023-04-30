@@ -1,7 +1,7 @@
 {
     "//----------------":"Layout Page",
-    "layoutTitle1": " Thebes",
-    "layoutTitle2": "Academy ",
+    "layoutTitle1": " Academy",
+    "layoutTitle2": "Thebes ",
     "layoutHome": "Home",
     "layoutCategories": "Categories",
     "layoutProfile": "Profile",
@@ -72,5 +72,19 @@
     "editProfileOldPassword":"Old Password",
     "editProfileNewPassword":"New Password",
     "editProfileConfirmNewPassword":"Confirm New Password",
-    "editProfileThisField":"This field can't be Empty"
+    "editProfileThisField":"This field can't be Empty",
+    "//----------------------":"Edit Profile Page",
+    "tripsText": "Trips",
+    "PlaceText": "Place : ",
+    "PriceText": "The Price : ",
+    "DateText": "The Date :  ",
+    "//----------------------": "Forget Your Pass",
+    "Enter your email": "Enter your email",
+    "rest password": "Rest Password",
+    "Password Register": "Password Register",
+    "//----------------------": "no connection",
+    "No connection": "No connection",
+    "An internet error": "An internet error occurred, please try again",
+    "TRY AGAIN": "TRY AGAIN"
+
 }

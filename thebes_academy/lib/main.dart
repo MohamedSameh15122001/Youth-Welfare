@@ -43,13 +43,14 @@ class MyApp extends StatelessWidget {
         ..getHomeData()
         ..getCategoryData()
         ..getProfileData()
+        ..getTripsData()
         ..checkCurrentValue(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'graduation project',
+            title: 'Thebes Academy',
             theme: ThemeData(
               primarySwatch: primaryColor,
               scaffoldBackgroundColor: Colors.white,
