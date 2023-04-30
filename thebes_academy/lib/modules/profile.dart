@@ -82,11 +82,16 @@ class Profile extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              CircleAvatar(
-                                radius: 60,
-                                backgroundImage: FileImage(File(
-                                    '${cubit.profileModel!.student!.image}')),
-                              ),
+                              if (cubit.profileModel!.student!.image!.contains("http"))
+                                CircleAvatar(
+                                    radius: 60,
+                                    backgroundImage: NetworkImage(
+                                        '${cubit.profileModel!.student!.image}')),
+                              if (!cubit.profileModel!.student!.image!.contains("http"))
+                                CircleAvatar(
+                                    radius: 60,
+                                    backgroundImage: FileImage(File(
+                                        '${cubit.profileModel!.student!.image}'))),
                             ],
                           ),
                           const SizedBox(height: 20),

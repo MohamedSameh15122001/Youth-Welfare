@@ -27,7 +27,8 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    specializationController.text = AppCubit.get(context).profileModel!.student!.specializationAr!;
+    specializationController.text =
+        AppCubit.get(context).profileModel!.student!.specializationAr!;
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         if (state is UpdateProfileSuccessState) {
@@ -63,6 +64,10 @@ class EditProfile extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(onPressed: () {
+              Navigator.pop(context);
+              cubit.imageName = null ;
+            }, icon: Icon(Icons.arrow_back),),
             backgroundColor: primaryColor,
             centerTitle: true,
             title: Row(
@@ -80,11 +85,11 @@ class EditProfile extends StatelessWidget {
                 ),
                 Text(getLang(context, 'layoutTitle1'),
                     style: GoogleFonts.poppins()),
-                if(lang =='ar')
+                if (lang == 'ar')
                   const SizedBox(
                     width: 76,
                   ),
-                if(lang =='en')
+                if (lang == 'en')
                   const SizedBox(
                     width: 30,
                   ),
@@ -171,14 +176,27 @@ class EditProfile extends StatelessWidget {
                                   Stack(
                                     alignment: Alignment.bottomRight,
                                     children: [
-                                      CircleAvatar(
-                                        radius: 60,
-                                        backgroundImage: cubit.imageName == null
-                                            ? FileImage(File(
-                                                '${cubit.profileModel!.student!.image}'))
-                                            : FileImage(
-                                                File('${cubit.imageName}')),
-                                      ),
+                                      if (cubit.profileModel!.student!.image!.contains("http") && cubit.imageName == null)
+                                        CircleAvatar(
+                                            radius: 60,
+                                            backgroundImage: NetworkImage(
+                                                '${cubit.profileModel!.student!.image}')),
+
+                                      if (cubit.profileModel!.student!.image!.contains("http") && cubit.imageName != null)
+                                        CircleAvatar(
+                                            radius: 60,
+                                            backgroundImage: FileImage(File('${cubit.imageName}')),),
+
+                                      if (!cubit.profileModel!.student!.image!.contains("http"))
+                                        CircleAvatar(
+                                          radius: 60,
+                                          backgroundImage: cubit.imageName == null
+                                              ? FileImage(File(
+                                                  '${cubit.profileModel!.student!.image}'))
+                                              : FileImage(
+                                                  File('${cubit.imageName}')),
+                                        ),
+
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
