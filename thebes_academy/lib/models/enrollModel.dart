@@ -1,5 +1,5 @@
 class EnrollModel {
-  int? status;
+  dynamic? status;
   String? message;
 
   EnrollModel.fromJson(Map<String, dynamic> json) {

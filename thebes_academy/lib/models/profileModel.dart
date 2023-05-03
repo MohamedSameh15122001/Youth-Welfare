@@ -24,7 +24,6 @@ class Student {
   String? specializationAr;
   String? specializationEn;
   List<Activity>? activity;
-  List<void>? trip;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -47,12 +46,6 @@ class Student {
       activity = <Activity>[];
       json['activity'].forEach((v) {
         activity!.add(Activity.fromJson(v));
-      });
-    }
-    if (json['trip'] != null) {
-      trip = <Null>[];
-      json['trip'].forEach((v) {
-        trip!.add(v);
       });
     }
     createdAt = json['createdAt'];

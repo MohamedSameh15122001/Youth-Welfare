@@ -24,4 +24,7 @@ const RestPass='students/verifyCode';
 
 const SetEmailEnd='students/resetPass';
 
+const EnrollTrip='enroll/trips';
+
+const Contact='contact';
 

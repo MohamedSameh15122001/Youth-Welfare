@@ -10,6 +10,7 @@ import 'package:thebes_academy/shared/applocale.dart';
 
 import '../cubit/appCubit.dart';
 import '../cubit/states.dart';
+import '../layouts/layout.dart';
 import '../models/tripsModel.dart';
 import '../shared/constants.dart';
 import 'activityDetail.dart';
@@ -20,7 +21,20 @@ class Trips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is AddTripSuccessState) {
+          showToast(
+              text: '${state.enrollTripModel.message}', state: ToastStates.SUCCESS);
+          Navigator.pop(context);
+        }
+
+        if (state is AddTripErrorState) {
+          showToast(
+              text: '${AppCubit.get(context).errorModel!.message}',
+              state: ToastStates.ERROR);
+          Navigator.pop(context);
+        }
+      },
       builder: (context, state) {
         var cubit = AppCubit.get(context);
         return Scaffold(
@@ -136,6 +150,99 @@ Widget buildTripsItem (Result model,context) {
                 Text('${model.price}',style: GoogleFonts.poppins(fontSize: 15,),)
 
               ],
+            ),
+            SizedBox(height: 7,),
+            Container(
+              width: 110,
+              height: 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child:  MaterialButton(
+                  onPressed: () {
+                    if (token == null) {
+                      showToast(
+                          text: getLang(context,
+                              'activityYouMustLoginFirst'),
+                          state: ToastStates.WARNING);
+                      currentPage = 2;
+                      navigateAndKill(
+                          context, const Layout());
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Center(
+                                child: Text(
+                                  getLang(context,
+                                      'Are you sure'),
+                                  style:
+                                  GoogleFonts.poppins(
+                                      color:
+                                      primaryColor,
+                                      fontSize: 20,
+                                      fontWeight:
+                                      FontWeight
+                                          .w400),
+                                )),
+                            content: Column(
+                              mainAxisSize:
+                              MainAxisSize.min,
+                              crossAxisAlignment:
+                              CrossAxisAlignment
+                                  .center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment
+                                      .spaceBetween,
+                                  children: [
+                                    OutlinedButton(
+                                        onPressed:
+                                            () {
+                                          Navigator.pop(
+                                              context);
+                                        },
+                                        child: Text(
+                                            getLang(
+                                                context,
+                                                'activityRateCancelButton'),
+                                            style: GoogleFonts.poppins(
+                                                color: primaryColor,
+                                                fontWeight: FontWeight.w500))),
+                                    OutlinedButton(
+                                        onPressed: () {
+                                          AppCubit.get(context).addTrip(
+                                              token: token,
+                                              tripID: model.sId
+                                          );
+                                        },
+                                        child: Text(
+                                            getLang(
+                                                context,
+                                                'register in trip'),
+                                            style: GoogleFonts.poppins(
+                                                color: primaryColor,
+                                                fontWeight: FontWeight.w500)))
+                                  ],
+                                )
+                              ],
+                            ),
+                          ));
+                    }
+                  },
+                  minWidth:
+                  MediaQuery.of(context).size.width,
+                  height: 50,
+                  color: primaryColor,
+                  child: Text(
+                      getLang(context,
+                          'register in trip'),
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 15,
+                      )),
+                ),
+              ),
             ),
           ],
         ),

@@ -85,6 +85,15 @@
     "//----------------------": "no connection",
     "No connection": "No connection",
     "An internet error": "An internet error occurred, please try again",
-    "TRY AGAIN": "TRY AGAIN"
+    "TRY AGAIN": "TRY AGAIN",
+    "//----------------------": "trips",
+    "register in trip": "Register",
+    "Are you sure": "Are you sure to register,If you register, you must go to the Youth Welfare Department to pay the fees",
+    "//----------------------": "contact us",
+    "Contact Us" : "Contact Us",
+    "Send Us" : "Send Us",
+    "Send" : "Send",
+    "You must complete the message" : "You must complete the message"
+
 
 }

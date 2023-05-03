@@ -203,5 +203,29 @@ class RestErrorState extends AppStates {}
 
 ///End of Rest State
 
+
+///Add Trip State
+class AddTripLoadingState extends AppStates {}
+
+class AddTripSuccessState extends AppStates {
+  final EnrollModel enrollTripModel;
+  AddTripSuccessState(this.enrollTripModel);
+}
+
+class AddTripErrorState extends AppStates {}
+
+///End of Add Trip State
+
+///Contant  State
+class ContantLoadingState extends AppStates {}
+
+class ContantSuccessState extends AppStates {
+  final EnrollModel contantModel;
+  ContantSuccessState(this.contantModel);
+}
+
+class ContantErrorState extends AppStates {}
+
+///End of Add Trip State
 ///change language
 class ChangeLanguage extends AppStates {}

@@ -6,6 +6,7 @@ Widget defaultFormField({
   required context,
   TextEditingController? controller,
   dynamic label,
+  dynamic hint,
   IconData ? prefix,
   String ? initialValue,
   TextInputType ?keyboardType,
@@ -39,7 +40,8 @@ Widget defaultFormField({
       decoration: InputDecoration(
         iconColor: primaryColor,
         hintText: label,
-        border:UnderlineInputBorder(),
+        labelText: hint,
+        border:const UnderlineInputBorder(),
         prefixIcon: Icon(prefix,),
         suffixIcon: suffix != null ? IconButton(onPressed: suffixPressed, icon: Icon(suffix)) : null,
 
@@ -54,7 +56,7 @@ Widget defaultButton({
 }) => Container(
   height: 40,
   width: width,
-  decoration: BoxDecoration(
+  decoration: const BoxDecoration(
     color: primaryColor,
   ),
   child: ElevatedButton(
@@ -62,7 +64,7 @@ Widget defaultButton({
     onPressed: onTap,
     child: Text(
       '$text',
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.white,
         fontSize: 17,
       ),

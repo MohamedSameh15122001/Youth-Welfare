@@ -521,4 +521,48 @@ EnrollModel? setEmailModel;
     });
   }
 
+  /////////////////////////////////////////////////////////////////////
+
+  EnrollModel? enrollTripModel;
+  void addTrip({String? token,String? tripID}) {
+    emit(AddTripLoadingState());
+    DioHelper.postData(
+        query: {'lang': lang},
+        url: '$Trips/$tripID/$EnrollTrip',
+      token: token
+        ).then((value) {
+      enrollTripModel = EnrollModel.fromJson(value.data);
+      emit(AddTripSuccessState(enrollTripModel!));
+    }).catchError((error) {
+      if (error is DioError)
+        if (error.response!.statusCode == 401 || error.response!.statusCode == 400  || error.response!.statusCode == 404) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
+      emit(AddTripErrorState());
+      print(error.toString());
+    });
+  }
+
+  /////////////////////////////////////////////////////////////////////
+
+  EnrollModel? contantModel;
+  void setContant({String? token,String? message}) {
+    emit(ContantLoadingState());
+    DioHelper.postData(
+        query: {'lang': lang},
+        url: Contact,
+        token: token,
+      data: {'message':message}
+    ).then((value) {
+      contantModel = EnrollModel.fromJson(value.data);
+      emit(ContantSuccessState(contantModel!));
+    }).catchError((error) {
+      if (error is DioError)
+        if (error.response!.statusCode == 401 || error.response!.statusCode == 400  || error.response!.statusCode == 404) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
+      emit(ContantErrorState());
+      print(error.toString());
+    });
+  }
 }
