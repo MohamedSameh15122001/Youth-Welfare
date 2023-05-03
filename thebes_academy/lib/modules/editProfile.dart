@@ -64,10 +64,13 @@ class EditProfile extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(onPressed: () {
-              Navigator.pop(context);
-              cubit.imageName = null ;
-            }, icon: Icon(Icons.arrow_back),),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+                cubit.imageName = null;
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
             backgroundColor: primaryColor,
             centerTitle: true,
             title: Row(
@@ -176,27 +179,32 @@ class EditProfile extends StatelessWidget {
                                   Stack(
                                     alignment: Alignment.bottomRight,
                                     children: [
-                                      if (cubit.profileModel!.student!.image!.contains("http") && cubit.imageName == null)
+                                      if (cubit.profileModel!.student!.image!
+                                              .contains("http") &&
+                                          cubit.imageName == null)
                                         CircleAvatar(
                                             radius: 60,
                                             backgroundImage: NetworkImage(
                                                 '${cubit.profileModel!.student!.image}')),
-
-                                      if (cubit.profileModel!.student!.image!.contains("http") && cubit.imageName != null)
-                                        CircleAvatar(
-                                            radius: 60,
-                                            backgroundImage: FileImage(File('${cubit.imageName}')),),
-
-                                      if (!cubit.profileModel!.student!.image!.contains("http"))
+                                      if (cubit.profileModel!.student!.image!
+                                              .contains("http") &&
+                                          cubit.imageName != null)
                                         CircleAvatar(
                                           radius: 60,
-                                          backgroundImage: cubit.imageName == null
+                                          backgroundImage: FileImage(
+                                              File('${cubit.imageName}')),
+                                        ),
+                                      if (!cubit.profileModel!.student!.image!
+                                          .contains("http"))
+                                        CircleAvatar(
+                                          radius: 60,
+                                          backgroundImage: cubit.imageName ==
+                                                  null
                                               ? FileImage(File(
                                                   '${cubit.profileModel!.student!.image}'))
                                               : FileImage(
                                                   File('${cubit.imageName}')),
                                         ),
-
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(

@@ -24,6 +24,7 @@ class Student {
   String? specializationAr;
   String? specializationEn;
   List<Activity>? activity;
+  List<Trip>? trip;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -48,6 +49,12 @@ class Student {
         activity!.add(Activity.fromJson(v));
       });
     }
+    if (json['trip'] != null) {
+      trip = <Trip>[];
+      json['trip'].forEach((v) {
+        trip!.add(Trip.fromJson(v));
+      });
+    }
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -59,6 +66,16 @@ class Activity {
   String? titleEn;
 
   Activity.fromJson(Map<String, dynamic> json) {
+    titleAr = json['title_ar'];
+    titleEn = json['title_en'];
+  }
+}
+
+class Trip {
+  String? titleAr;
+  String? titleEn;
+
+  Trip.fromJson(Map<String, dynamic> json) {
     titleAr = json['title_ar'];
     titleEn = json['title_en'];
   }
