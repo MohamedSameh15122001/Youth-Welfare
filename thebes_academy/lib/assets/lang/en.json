@@ -8,6 +8,7 @@
     "layoutDrawerLanguage": "Language",
     "layoutSignOut": "SIGN OUT",
     "succeessfully signed out":"Succeessfully signed out",
+
     "//---------------------":"Category Page",
     "categoryReadMore": " Read More ",
     "categoryReadLess": " Read Less ",
@@ -90,6 +91,7 @@
     "TRY AGAIN": "TRY AGAIN",
     "//----------------------": "trips",
     "register in trip": "Register",
+    "Already registered": "Already registered",
     "Are you sure": "Are you sure to register,If you register, you must go to the Youth Welfare Department to pay the fees",
     "//----------------------": "contact us",
     "Contact Us" : "Contact Us",

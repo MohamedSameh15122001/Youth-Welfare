@@ -81,7 +81,9 @@ class Trips extends StatelessWidget {
                               verticalOffset: 50.0,
                               child: FadeInAnimation(
                                 child: buildTripsItem(
-                                    cubit.tripsModel!.result![index], context),
+                                    cubit.tripsModel!.result![index],
+                                    context,
+                                    cubit),
                               ),
                             ),
                           ),
@@ -99,7 +101,7 @@ class Trips extends StatelessWidget {
   }
 }
 
-Widget buildTripsItem(Result model, context) {
+Widget buildTripsItem(Result model, context, AppCubit cubit) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: Container(
@@ -189,82 +191,99 @@ Widget buildTripsItem(Result model, context) {
             ],
           ),
           const SizedBox(
-            height: 7,
+            height: 10,
           ),
-          SizedBox(
-            width: 110,
-            height: 40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: MaterialButton(
-                onPressed: () {
-                  if (token == null) {
-                    showToast(
-                        text: getLang(context, 'activityYouMustLoginFirst'),
-                        state: ToastStates.WARNING);
-                    currentPage = 2;
-                    navigateAndKill(context, const Layout());
-                  } else {
-                    showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                              title: Center(
-                                  child: Text(
-                                getLang(context, 'Are you sure'),
-                                style: GoogleFonts.poppins(
-                                    color: primaryColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400),
-                              )),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      OutlinedButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                              getLang(context,
-                                                  'activityRateCancelButton'),
-                                              style: GoogleFonts.poppins(
-                                                  color: primaryColor,
-                                                  fontWeight:
-                                                      FontWeight.w500))),
-                                      OutlinedButton(
-                                          onPressed: () {
-                                            AppCubit.get(context).addTrip(
-                                                token: token,
-                                                tripID: model.sId);
-                                          },
-                                          child: Text(
-                                              getLang(
-                                                  context, 'register in trip'),
-                                              style: GoogleFonts.poppins(
-                                                  color: primaryColor,
-                                                  fontWeight: FontWeight.w500)))
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ));
-                  }
-                },
-                minWidth: MediaQuery.of(context).size.width,
-                height: 50,
-                color: primaryColor,
-                child: Text(getLang(context, 'register in trip'),
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontSize: 15,
-                    )),
+          if (!cubit.RT.contains('${model.sId}'))
+            Container(
+              width: 110,
+              height: 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: MaterialButton(
+                  onPressed: () {
+                    if (token == null) {
+                      showToast(
+                          text: getLang(context, 'activityYouMustLoginFirst'),
+                          state: ToastStates.WARNING);
+                      currentPage = 2;
+                      navigateAndKill(context, const Layout());
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: Center(
+                                    child: Text(
+                                  getLang(context, 'Are you sure'),
+                                  style: GoogleFonts.poppins(
+                                      color: primaryColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400),
+                                )),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        OutlinedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                                getLang(context,
+                                                    'activityRateCancelButton'),
+                                                style: GoogleFonts.poppins(
+                                                    color: primaryColor,
+                                                    fontWeight:
+                                                        FontWeight.w500))),
+                                        OutlinedButton(
+                                            onPressed: () {
+                                              AppCubit.get(context).addTrip(
+                                                  token: token,
+                                                  tripID: model.sId);
+                                            },
+                                            child: Text(
+                                                getLang(context,
+                                                    'register in trip'),
+                                                style: GoogleFonts.poppins(
+                                                    color: primaryColor,
+                                                    fontWeight:
+                                                        FontWeight.w500)))
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ));
+                    }
+                  },
+                  minWidth: MediaQuery.of(context).size.width,
+                  height: 50,
+                  color: primaryColor,
+                  child: Text(getLang(context, 'register in trip'),
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 15,
+                      )),
+                ),
               ),
             ),
-          ),
+          if (cubit.RT.contains('${model.sId}'))
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                width: 150,
+                height: 40,
+                color: Colors.grey,
+                child: Center(
+                    child: Text(
+                  '${getLang(context, 'Already registered')}',
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, fontSize: 15),
+                )),
+              ),
+            ),
         ],
       ),
     ),

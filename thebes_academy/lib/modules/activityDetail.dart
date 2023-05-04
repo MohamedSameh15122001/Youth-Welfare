@@ -74,11 +74,11 @@ class ActivityDetails extends StatelessWidget {
                   ),
                   Text(getLang(context, "layoutTitle1"),
                       style: GoogleFonts.poppins()),
-                  if (lang == 'ar')
+                  if(lang =='ar')
                     const SizedBox(
                       width: 76,
                     ),
-                  if (lang == 'en')
+                  if(lang =='en')
                     const SizedBox(
                       width: 30,
                     ),
@@ -174,61 +174,61 @@ class ActivityDetails extends StatelessWidget {
                                                   context: context,
                                                   builder:
                                                       (context) => AlertDialog(
-                                                            title: Center(
+                                                    title: Center(
+                                                        child: Text(
+                                                          getLang(context,
+                                                              'Are you sure activity'),
+                                                          style: GoogleFonts.poppins(
+                                                              color:
+                                                              primaryColor,
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400),
+                                                        )),
+                                                    content: Column(
+                                                      mainAxisSize:
+                                                      MainAxisSize
+                                                          .min,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .center,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            OutlinedButton(
+                                                                onPressed:
+                                                                    () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
                                                                 child: Text(
-                                                              getLang(context,
-                                                                  'Are you sure activity'),
-                                                              style: GoogleFonts.poppins(
-                                                                  color:
-                                                                      primaryColor,
-                                                                  fontSize: 20,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            )),
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    OutlinedButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child: Text(
-                                                                            getLang(context,
-                                                                                'activityRateCancelButton'),
-                                                                            style:
-                                                                                GoogleFonts.poppins(color: primaryColor, fontWeight: FontWeight.w500))),
-                                                                    OutlinedButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          cubit.addActivity(
-                                                                              activityID: cubit.activitiesDetailModel!.result!.sId,
-                                                                              categoryID: cubit.categoriesDetailModel!.result!.sId);
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child: Text(
-                                                                            getLang(context,
-                                                                                'register in trip'),
-                                                                            style:
-                                                                                GoogleFonts.poppins(color: primaryColor, fontWeight: FontWeight.w500)))
-                                                                  ],
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ));
+                                                                    getLang(context,
+                                                                        'activityRateCancelButton'),
+                                                                    style:
+                                                                    GoogleFonts.poppins(color: primaryColor, fontWeight: FontWeight.w500))),
+                                                            OutlinedButton(
+                                                                onPressed:
+                                                                    () {
+                                                                  cubit.addActivity(
+                                                                      activityID: cubit.activitiesDetailModel!.result!.sId,
+                                                                      categoryID: cubit.categoriesDetailModel!.result!.sId);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: Text(
+                                                                    getLang(context,
+                                                                        'register in trip'),
+                                                                    style:
+                                                                    GoogleFonts.poppins(color: primaryColor, fontWeight: FontWeight.w500)))
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ));
                                             }
                                           },
                                           minWidth:

@@ -29,7 +29,10 @@ class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(InitialState());
 
   static AppCubit get(context) => BlocProvider.of(context);
+
   List<String> RA = [];
+  List<String> RT = [];
+
   ErrorModel? errorModel;
   /////////////////////////////////////////////////////////////////////
 
@@ -232,7 +235,9 @@ class AppCubit extends Cubit<AppStates> {
     ).then((value) {
       profileModel = ProfileModel.fromJson(value.data);
 
+      RT= [];
       RA = [];
+
       var num = profileModel!.student!.activity!.length;
       for (var l = 0; l < num; l++) {
         if(lang=='ar')
@@ -241,6 +246,10 @@ class AppCubit extends Cubit<AppStates> {
           RA.add('${profileModel!.student!.activity![l].titleEn}');
       }
 
+      var num1 = profileModel!.student!.trip!.length;
+      for (var l = 0; l < num1; l++) {
+          RT.add(profileModel!.student!.trip![l]);
+      }
       emit(ProfileSuccessState());
     }).catchError((error) {
       emit(ProfileErrorState());

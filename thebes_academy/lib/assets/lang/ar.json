@@ -8,6 +8,7 @@
     "layoutDrawerLanguage": "اللغة",
     "layoutSignOut": "تسجيل الخروج",
     "succeessfully signed out":"تم تسجيل الخروج بنجاح",
+
     "//---------------------": "Category Page",
     "categoryReadMore": " اقرأ المزيد ",
     "categoryReadLess": " اقرأ اقل ",
@@ -89,7 +90,8 @@
     "An internet error": "حدث خطأ في الإنترنت ، يرجى المحاولة مرة أخرى",
     "TRY AGAIN": "حاول ثانية",
     "//----------------------": "trips",
-    "register in trip": "التسجيل",
+    "register in trip": "تسجيل",
+    "Already registered": "تم التسجيل بالفعل",
     "Are you sure": "هل انت متاكد من التسجيل , اذا سجلت يجب أن تتوجه الي رعاية الشباب لدفع الرسوم",
     "//----------------------": "contact us",
     "Contact Us" : "اتصل بنا",
