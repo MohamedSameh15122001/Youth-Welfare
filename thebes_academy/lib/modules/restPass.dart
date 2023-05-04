@@ -27,7 +27,7 @@ RestPass(this.email);
           if (state is RestSuccessState)
           {
             showToast(text: '${AppCubit.get(context).restPassModel!.message}', state: ToastStates.SUCCESS);
-            navigateAndKill(context,  const Login());
+            Navigator.pop(context);
             code.clear();
             password.clear();
             confirmPassword.clear();
