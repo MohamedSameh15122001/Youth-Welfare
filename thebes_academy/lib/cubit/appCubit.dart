@@ -236,7 +236,7 @@ class AppCubit extends Cubit<AppStates> {
       profileModel = ProfileModel.fromJson(value.data);
 
       RT= [];
-      RA = [];
+      RA= [];
 
       var num = profileModel!.student!.activity!.length;
       for (var l = 0; l < num; l++) {
@@ -541,6 +541,7 @@ EnrollModel? setEmailModel;
       token: token
         ).then((value) {
       enrollTripModel = EnrollModel.fromJson(value.data);
+      getProfileData();
       emit(AddTripSuccessState(enrollTripModel!));
     }).catchError((error) {
       if (error is DioError)
