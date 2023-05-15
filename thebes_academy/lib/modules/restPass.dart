@@ -138,6 +138,9 @@ RestPass(this.email);
                                     context, 'registerPasswordMustFilled')
                                 as String;
                               }
+                              else if(isValidPass(value) == false){
+                                return getLang(context, 'Invalid password') as String;
+                              }
                             },
                             onSubmit: (value) {},
                             suffix: AppCubit.get(context).suffixIconR,

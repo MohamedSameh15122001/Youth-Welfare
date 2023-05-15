@@ -14,8 +14,6 @@ import '../shared/constants.dart';
 class EditProfile extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController specializationController = TextEditingController();
-  TextEditingController codeController = TextEditingController();
   TextEditingController oldPassController = TextEditingController();
   TextEditingController newPassController = TextEditingController();
   TextEditingController confirmNewPassController = TextEditingController();
@@ -27,8 +25,6 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    specializationController.text =
-        AppCubit.get(context).profileModel!.student!.specializationAr!;
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         if (state is UpdateProfileSuccessState) {
@@ -60,14 +56,16 @@ class EditProfile extends StatelessWidget {
         AppCubit cubit = AppCubit.get(context);
         nameController.text = cubit.profileModel!.student!.fullName!;
         phoneController.text = cubit.profileModel!.student!.phone!;
-        codeController.text = '${cubit.profileModel!.student!.code!}';
 
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(onPressed: () {
-              Navigator.pop(context);
-              cubit.imageName = null ;
-            }, icon: Icon(Icons.arrow_back),),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+                cubit.imageName = null;
+              },
+              icon: Icon(Icons.arrow_back),
+            ),
             backgroundColor: primaryColor,
             centerTitle: true,
             title: Row(
@@ -148,22 +146,14 @@ class EditProfile extends StatelessWidget {
                                                         FontWeight.w500)),
                                             onPressed: () {
                                               print('${cubit.imageName}');
-                                              print(
-                                                  '${cubit.profileModel!.student!.image}');
 
                                               if (formkey.currentState!
                                                   .validate()) {
                                                 cubit.updateProfileData(
-                                                    name: nameController.text,
-                                                    image: cubit.imageName,
-                                                    code: codeController.text,
-                                                    phone: phoneController.text,
-                                                    specialization_ar:
-                                                        specializationController
-                                                            .text,
-                                                    specialization_en:
-                                                        specializationController
-                                                            .text);
+                                                  name: nameController.text,
+                                                  image: cubit.imageName,
+                                                  phone: phoneController.text,
+                                                );
                                               }
                                             },
                                           ),
@@ -176,27 +166,32 @@ class EditProfile extends StatelessWidget {
                                   Stack(
                                     alignment: Alignment.bottomRight,
                                     children: [
-                                      if (cubit.profileModel!.student!.image!.contains("http") && cubit.imageName == null)
+                                      if (cubit.profileModel!.student!.image!
+                                              .contains("http") &&
+                                          cubit.imageName == null)
                                         CircleAvatar(
                                             radius: 60,
                                             backgroundImage: NetworkImage(
                                                 '${cubit.profileModel!.student!.image}')),
-
-                                      if (cubit.profileModel!.student!.image!.contains("http") && cubit.imageName != null)
-                                        CircleAvatar(
-                                            radius: 60,
-                                            backgroundImage: FileImage(File('${cubit.imageName}')),),
-
-                                      if (!cubit.profileModel!.student!.image!.contains("http"))
+                                      if (cubit.profileModel!.student!.image!
+                                              .contains("http") &&
+                                          cubit.imageName != null)
                                         CircleAvatar(
                                           radius: 60,
-                                          backgroundImage: cubit.imageName == null
+                                          backgroundImage: FileImage(
+                                              File('${cubit.imageName}')),
+                                        ),
+                                      if (!cubit.profileModel!.student!.image!
+                                          .contains("http"))
+                                        CircleAvatar(
+                                          radius: 60,
+                                          backgroundImage: cubit.imageName ==
+                                                  null
                                               ? FileImage(File(
                                                   '${cubit.profileModel!.student!.image}'))
                                               : FileImage(
                                                   File('${cubit.imageName}')),
                                         ),
-
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
@@ -221,6 +216,9 @@ class EditProfile extends StatelessWidget {
                                   // )
                                 ],
                               ),
+                              const SizedBox(
+                                height: 15,
+                              ),
                               Text(
                                 getLang(context, 'editProfileName'),
                                 style: const TextStyle(
@@ -237,9 +235,12 @@ class EditProfile extends StatelessWidget {
                                               context, 'editProfileThisField')
                                           as String;
                                     }
+                                    else if(value.toString().length < 4){
+                                      return getLang(context, 'The short name') as String;
+                                    }
                                   }),
                               const SizedBox(
-                                height: 5,
+                                height: 15,
                               ),
                               Text(
                                 getLang(context, 'editProfilePhone'),
@@ -259,68 +260,12 @@ class EditProfile extends StatelessWidget {
                                     }
                                   }),
                               const SizedBox(
-                                height: 5,
+                                height: 10,
                               ),
-                              Text(
-                                getLang(context, 'editProfileCode'),
-                                style: const TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                              defaultFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: codeController,
-                                  context: context,
-                                  prefix: Icons.code,
-                                  validate: (value) {
-                                    if (value!.isEmpty) {
-                                      return getLang(
-                                              context, 'editProfileThisField')
-                                          as String;
-                                    }
-                                  }),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    getLang(
-                                        context, 'editProfileSpecialization'),
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const Spacer(),
-                                  DropdownButton(
-                                    items: items.map((valueItem) {
-                                      return DropdownMenuItem(
-                                        value: valueItem,
-                                        child: Text(
-                                          valueItem,
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (newValue) {
-                                      specializationController.text = newValue!;
-                                      AppCubit.get(context)
-                                          .emit(ChangeDropDownState());
-                                    },
-                                    value: specializationController.text,
-                                    underline: const SizedBox(),
-                                  ),
-                                ],
-                              ),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                              )
                             ]),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 20,
                       ),
                       Center(
                         child: Column(
@@ -395,7 +340,7 @@ class EditProfile extends StatelessWidget {
                                     }
                                   }),
                               const SizedBox(
-                                height: 5,
+                                height: 10,
                               ),
                               Text(
                                 getLang(context, 'editProfileNewPassword'),
@@ -420,9 +365,12 @@ class EditProfile extends StatelessWidget {
                                               context, 'editProfileThisField')
                                           as String;
                                     }
+                                    else if(isValidPass(value) == false){
+                                      return getLang(context, 'Invalid password') as String;
+                                    }
                                   }),
                               const SizedBox(
-                                height: 5,
+                                height: 10,
                               ),
                               Text(
                                 getLang(
@@ -447,6 +395,10 @@ class EditProfile extends StatelessWidget {
                                     if (value!.isEmpty) {
                                       return getLang(
                                               context, 'editProfileThisField')
+                                          as String;
+                                    } else if (value != newPassController.text) {
+                                      return getLang(context,
+                                              'registerConfirmPasswordMatchMustFilled')
                                           as String;
                                     }
                                   }),

@@ -61,6 +61,13 @@ dependencies:
   dio: ^4.0.0
   shared_preferences: ^2.0.18
 
+#  sound_stream: ^0.3.0
+#  dialogflow_grpc: ^0.2.9
+#  rxdart: ^0.27.2
+  chat_bubbles: ^1.1.0
+#  dialogflow_flutter: ^1.0.0
+  dialog_flowtter: ^0.3.3
+
 flutter_icons:
   android: true
   ios: true
@@ -104,6 +111,8 @@ flutter:
   assets:
     - lib/assets/images/
     - lib/assets/lang/
+    - lib/assets/credentials.json
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

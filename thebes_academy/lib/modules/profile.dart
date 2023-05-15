@@ -133,7 +133,7 @@ class Profile extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
                               Text(
-                                  '${cubit.profileModel!.student!.specializationEn}',
+                                  '${cubit.profileModel!.student!.specialization}',
                                   style: GoogleFonts.poppins(fontSize: 20)),
                             ],
                           ),

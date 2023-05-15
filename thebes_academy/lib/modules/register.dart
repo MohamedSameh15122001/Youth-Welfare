@@ -15,8 +15,6 @@ TextEditingController name = TextEditingController();
 TextEditingController code = TextEditingController();
 TextEditingController phone = TextEditingController();
 TextEditingController confirmPassword = TextEditingController();
-TextEditingController specialization_ar = TextEditingController();
-TextEditingController specialization_en = TextEditingController();
 
 var signUpFormKey = GlobalKey<FormState>();
 
@@ -36,8 +34,6 @@ class Register extends StatelessWidget {
         password.clear();
         code.clear();
         name.clear();
-        specialization_ar.clear();
-        specialization_en.clear();
         phone.clear();
         confirmPassword.clear();
       }
@@ -117,6 +113,10 @@ class Register extends StatelessWidget {
                               return getLang(context, 'registerEmailMustFilled')
                                   as String;
                             }
+                            else if(value.toString().length < 4){
+                              return getLang(context, 'The short name') as String;
+                            }
+
                           }),
                       const SizedBox(
                         height: 30,
@@ -131,6 +131,9 @@ class Register extends StatelessWidget {
                             if (value!.isEmpty) {
                               return getLang(context, 'registerCodeMustFilled')
                                   as String;
+                            }
+                            else if(value.toString().length < 9 || value.toString().length > 9){
+                              return getLang(context, 'The code must') as String;
                             }
                           }),
                       const SizedBox(
@@ -162,6 +165,9 @@ class Register extends StatelessWidget {
                               return getLang(context, 'registerEmailMustFilled')
                                   as String;
                             }
+                            else if(isValidEmail(value.toString()) == false ){
+                              return getLang(context, 'The email is incorrect') as String;
+                            }
                           }),
                       const SizedBox(
                         height: 30,
@@ -177,6 +183,9 @@ class Register extends StatelessWidget {
                               return getLang(
                                       context, 'registerPasswordMustFilled')
                                   as String;
+                            }
+                            else if(isValidPass(value) == false){
+                              return getLang(context, 'Invalid password') as String;
                             }
                           },
                           onSubmit: (value) {},
@@ -268,8 +277,8 @@ class Register extends StatelessWidget {
                                       fullName: name.text,
                                       code: code.text,
                                       phone: phone.text,
-                                      specialization_ar: specialization,
-                                      specialization_en: specialization,
+                                      specialization: specialization,
+                                      repassword:confirmPassword.text
                                     );
                                   }
                                 },

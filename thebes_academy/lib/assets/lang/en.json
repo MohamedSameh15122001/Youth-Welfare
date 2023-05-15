@@ -8,7 +8,6 @@
     "layoutDrawerLanguage": "Language",
     "layoutSignOut": "SIGN OUT",
     "succeessfully signed out":"Succeessfully signed out",
-    "write your message":"write your message",
 
     "//---------------------":"Category Page",
     "categoryReadMore": " Read More ",
@@ -33,6 +32,10 @@
     "loginEmailMustFilled": "Email Address must be filled",
     "loginPasswordMustFilled": "Password must be filled",
     "//-------------------":"Register Page",
+    "The code must": "The code must consist of 9 digits",
+    "The email is incorrect": "The email is incorrect",
+    "The short name": "The short name must be longer than 3 characters",
+    "Invalid password": "Invalid password. Password must contain at least one letter,\n one number, and be at least 8 characters long.",
     "registerCreateAnAccount": "Create An Account",
     "registerFullName": "Name",
     "registerID": "Code",

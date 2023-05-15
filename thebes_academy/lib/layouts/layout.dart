@@ -10,7 +10,9 @@ import 'package:thebes_academy/modules/profile.dart';
 import 'package:thebes_academy/shared/applocale.dart';
 import 'package:thebes_academy/shared/test.dart';
 
+import '../modules/chat.dart';
 import '../modules/noConnection.dart';
+import '../shared/component.dart';
 import '../shared/constants.dart';
 
 List<Widget> layoutPage = [
@@ -31,14 +33,12 @@ class _LayoutState extends State<Layout> {
   @override
   var sendKey = GlobalKey<FormState>();
   TextEditingController contactController = TextEditingController();
-  @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         if (state is ContantSuccessState) {
           showToast(
-              text: '${state.contantModel.message}',
-              state: ToastStates.SUCCESS);
+              text: '${state.contantModel.message}', state: ToastStates.SUCCESS);
           Navigator.pop(context);
           contactController.clear();
         }
@@ -65,11 +65,11 @@ class _LayoutState extends State<Layout> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (lang == 'ar')
-                  const SizedBox(
-                    width: 34,
-                  ),
-                if (lang == 'en')
+                if(lang =='ar')
+                const SizedBox(
+                  width: 34,
+                ),
+                if(lang =='en')
                   const SizedBox(
                     width: 22,
                   ),
@@ -140,7 +140,26 @@ class _LayoutState extends State<Layout> {
                     ],
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
+                // SizedBox(
+                //   height: 50,
+                //   child: TextButton(
+                //     // color: primaryColor,
+                //     child: Text(
+                //       'Chat Bot',
+                //       style: const TextStyle(
+                //         color: primaryColor,
+                //         fontSize: 20,
+                //       ),
+                //     ),
+                //     onPressed: () {
+                //      navigateTo(context, Chat(key:UniqueKey() ,));
+                //     },
+                //   ),
+                // ),
+                const SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   height: 50,
                   child: TextButton(
@@ -155,92 +174,96 @@ class _LayoutState extends State<Layout> {
                     onPressed: () {
                       if (token == null) {
                         showToast(
-                            text: getLang(context, 'activityYouMustLoginFirst'),
+                            text: getLang(context,
+                                'activityYouMustLoginFirst'),
                             state: ToastStates.WARNING);
                         currentPage = 2;
-                        navigateAndKill(context, const Layout());
+                        navigateAndKill(
+                            context, const Layout());
                       } else {
                         showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                                  title: Text(
-                                    getLang(context, 'Send Us'),
-                                    style: GoogleFonts.poppins(
-                                        color: primaryColor,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  content: Form(
-                                    key: sendKey,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        TextFormField(
-                                          controller: contactController,
-                                          keyboardType:
-                                              TextInputType.emailAddress,
-                                          decoration: InputDecoration(
-                                            // labelText: getLang(
-                                            //     context, 'write your message'),
-                                            hintText: getLang(
-                                                context, 'write your message'),
-                                            enabledBorder: InputBorder.none,
-                                          ),
-                                          maxLines: 6,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return getLang(context,
-                                                      'You must complete the message')
-                                                  as String;
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            OutlinedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  contactController.clear();
-                                                },
-                                                child: Text(
-                                                    getLang(context,
-                                                        'activityRateCancelButton'),
-                                                    style: GoogleFonts.poppins(
-                                                        color: primaryColor,
-                                                        fontWeight:
-                                                            FontWeight.w500))),
-                                            OutlinedButton(
-                                                onPressed: () {
-                                                  if (sendKey.currentState!
-                                                      .validate()) {
-                                                    AppCubit.get(context)
-                                                        .setContant(
-                                                            token: token,
-                                                            message:
-                                                                contactController
-                                                                    .text);
-                                                  }
-                                                },
-                                                child: Text(
-                                                    getLang(context, 'Send'),
-                                                    style: GoogleFonts.poppins(
-                                                        color: primaryColor,
-                                                        fontWeight:
-                                                            FontWeight.w500)))
-                                          ],
-                                        )
-                                      ],
+                              title: Text(
+                                getLang(context,
+                                    'Send Us'),
+                                style:
+                                GoogleFonts.poppins(
+                                    color:
+                                    primaryColor,
+                                    fontSize: 20,
+                                    fontWeight:
+                                    FontWeight
+                                        .w400),
+                              ),
+                              content: Form(
+                                key: sendKey,
+                                child: Column(
+                                  mainAxisSize:
+                                  MainAxisSize.min,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment
+                                      .center,
+                                  children: [
+                                    TextFormField(
+                                      controller: contactController,
+                                      keyboardType: TextInputType.emailAddress,
+                                      decoration: InputDecoration(
+                                        // labelText: getLang(
+                                        //     context, 'write your message'),
+                                        hintText: getLang(
+                                            context, 'write your message'),
+                                        enabledBorder: InputBorder.none,
+                                      ),
+                                      maxLines: 6,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return getLang(context,
+                                              'You must complete the message')
+                                          as String;
+                                        }
+                                        return null;
+                                      },
                                     ),
-                                  ),
-                                ));
+                                    SizedBox(height: 10,),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        OutlinedButton(
+                                            onPressed:
+                                                () {
+                                              Navigator.pop(
+                                                  context);
+                                              contactController.clear();
+                                                },
+                                            child: Text(
+                                                getLang(
+                                                    context,
+                                                    'activityRateCancelButton'),
+                                                style: GoogleFonts.poppins(
+                                                    color: primaryColor,
+                                                    fontWeight: FontWeight.w500))),
+                                        OutlinedButton(
+                                            onPressed: () {
+                                              if(sendKey.currentState!.validate()){
+                                                AppCubit.get(context).setContant(token: token,message: contactController.text);
+                                              }
+                                            },
+                                            child: Text(
+                                                getLang(
+                                                    context,
+                                                    'Send'),
+                                                style: GoogleFonts.poppins(
+                                                    color: primaryColor,
+                                                    fontWeight: FontWeight.w500)))
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ));
                       }
                     },
                   ),
@@ -248,26 +271,26 @@ class _LayoutState extends State<Layout> {
                 const SizedBox(
                   height: 10,
                 ),
-                if (token != null)
-                  SizedBox(
-                    height: 50,
-                    child: TextButton(
-                      // color: primaryColor,
-                      child: Text(
-                        getLang(context, 'layoutSignOut'),
-                        style: const TextStyle(
-                          color: primaryColor,
-                          fontSize: 20,
-                        ),
+                if(token != null)
+                SizedBox(
+                  height: 50,
+                  child: TextButton(
+                    // color: primaryColor,
+                    child: Text(
+                      getLang(context, 'layoutSignOut'),
+                      style: const TextStyle(
+                        color: primaryColor,
+                        fontSize: 20,
                       ),
-                      onPressed: () {
-                        signOut(context);
-                        Navigator.pop(context);
-                        AppCubit.get(context).getProfileData();
-                      },
                     ),
+                    onPressed: () {
+                      signOut(context);
+                      Navigator.pop(context);
+                      AppCubit.get(context).getProfileData();
+                    },
                   ),
-                if (token == null)
+                ),
+                if(token == null)
                   SizedBox(
                     height: 50,
                     child: TextButton(
@@ -280,13 +303,14 @@ class _LayoutState extends State<Layout> {
                         ),
                       ),
                       onPressed: () {
-                        navigateAndKill(context, const Login());
+                       navigateAndKill(context, const Login());
                       },
                     ),
                   ),
                 const SizedBox(
                   height: 50,
                 ),
+
               ],
             ),
           ),

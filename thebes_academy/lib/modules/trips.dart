@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:readmore/readmore.dart';
 import 'package:thebes_academy/shared/applocale.dart';
 
 import '../cubit/appCubit.dart';
@@ -11,6 +13,7 @@ import '../cubit/states.dart';
 import '../layouts/layout.dart';
 import '../models/tripsModel.dart';
 import '../shared/constants.dart';
+import 'activityDetail.dart';
 
 class Trips extends StatelessWidget {
   const Trips({super.key});
@@ -191,7 +194,7 @@ Widget buildTripsItem(Result model, context, AppCubit cubit) {
             height: 10,
           ),
           if (!cubit.RT.contains('${model.sId}'))
-            SizedBox(
+            Container(
               width: 110,
               height: 40,
               child: ClipRRect(
@@ -270,7 +273,7 @@ Widget buildTripsItem(Result model, context, AppCubit cubit) {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                width: 200,
+                width: 155,
                 height: 40,
                 color: Colors.grey,
                 child: Center(

@@ -21,8 +21,7 @@ class Student {
   String? role;
   bool? isverified;
   Null? emailToken;
-  String? specializationAr;
-  String? specializationEn;
+  String? specialization;
   List<Activity>? activity;
   List<String>? trip;
   String? createdAt;
@@ -41,8 +40,7 @@ class Student {
     role = json['role'];
     isverified = json['Isverified'];
     emailToken = json['emailToken'];
-    specializationAr = json['Specialization_ar'];
-    specializationEn = json['Specialization_en'];
+    specialization = json['Specialization'];
     if (json['activity'] != null) {
       activity = <Activity>[];
       json['activity'].forEach((v) {

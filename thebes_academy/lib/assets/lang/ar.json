@@ -8,7 +8,6 @@
     "layoutDrawerLanguage": "اللغة",
     "layoutSignOut": "تسجيل الخروج",
     "succeessfully signed out":"تم تسجيل الخروج بنجاح",
-    "write your message":"اكتب رسالتك",
 
     "//---------------------": "Category Page",
     "categoryReadMore": " اقرأ المزيد ",
@@ -33,6 +32,10 @@
     "loginEmailMustFilled": "يجب تعبئة عنوان البريد الإلكتروني",
     "loginPasswordMustFilled": "يجب تعبئة كلمة المرور",
     "//-------------------": "Register Page",
+    "The code must": "يجب ان يتكون الكود من 9 ارقام",
+    "The email is incorrect": "الاميل غير صحيح",
+    "The short name": "الاسم قصير يجب ان يكون اكبر من 3 حروف",
+    "Invalid password": "رمز مرور خاطئ. يجب أن تحتوي كلمة المرور على حرف واحد على الأقل ، \n ورقم واحد ، وأن تتكون من 8 أحرف على الأقل.",
     "registerCreateAnAccount": "إنشاء حساب",
     "registerFullName": "الاسم",
     "registerID": "الكود",
