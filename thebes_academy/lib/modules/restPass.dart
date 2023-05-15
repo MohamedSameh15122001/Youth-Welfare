@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:thebes_academy/modules/Login.dart';
 import 'package:thebes_academy/shared/applocale.dart';
 import 'package:thebes_academy/shared/constants.dart';
 
@@ -14,41 +13,41 @@ TextEditingController password = TextEditingController();
 TextEditingController code = TextEditingController();
 TextEditingController confirmPassword = TextEditingController();
 
-
 var FormKey = GlobalKey<FormState>();
 
 class RestPass extends StatelessWidget {
-String email;
-RestPass(this.email);
+  String email;
+  RestPass(this.email, {super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
-        listener: (context, state) {
-          if (state is RestSuccessState)
-          {
-            showToast(text: '${AppCubit.get(context).restPassModel!.message}', state: ToastStates.SUCCESS);
-            Navigator.pop(context);
-            code.clear();
-            password.clear();
-            confirmPassword.clear();
-          }
+    return BlocConsumer<AppCubit, AppStates>(listener: (context, state) {
+      if (state is RestSuccessState) {
+        showToast(
+            text: '${AppCubit.get(context).restPassModel!.message}',
+            state: ToastStates.SUCCESS);
+        Navigator.pop(context);
+        code.clear();
+        password.clear();
+        confirmPassword.clear();
+      }
 
-          if (state is RestErrorState)
-          {
-            showToast(
-                text: '${AppCubit.get(context).errorModel!.message}',
-                state: ToastStates.ERROR);
-          }
-    },
-        builder: (context, state) {
+      if (state is RestErrorState) {
+        showToast(
+            text: '${AppCubit.get(context).errorModel!.message}',
+            state: ToastStates.ERROR);
+      }
+    }, builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: () {
-            Navigator.pop(context);
-            code.clear();
-            password.clear();
-            confirmPassword.clear();
-            }, icon: Icon(Icons.arrow_back),),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+              code.clear();
+              password.clear();
+              confirmPassword.clear();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
           backgroundColor: primaryColor,
           centerTitle: true,
           title: Row(
@@ -66,11 +65,11 @@ RestPass(this.email);
               ),
               Text(getLang(context, 'layoutTitle1'),
                   style: GoogleFonts.poppins()),
-              if(lang =='ar')
+              if (lang == 'ar')
                 const SizedBox(
                   width: 76,
                 ),
-              if(lang =='en')
+              if (lang == 'en')
                 const SizedBox(
                   width: 30,
                 ),
@@ -84,7 +83,8 @@ RestPass(this.email);
             child: Form(
               key: FormKey,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: AnimationLimiter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +108,6 @@ RestPass(this.email);
                         const SizedBox(
                           height: 20,
                         ),
-
                         defaultFormField(
                             context: context,
                             keyboardType: TextInputType.number,
@@ -117,15 +116,22 @@ RestPass(this.email);
                             prefix: Icons.code,
                             validate: (value) {
                               if (value!.isEmpty) {
-                                return getLang(context, 'registerCodeMustFilled')
-                                as String;
+                                return getLang(
+                                        context, 'registerCodeMustFilled')
+                                    as String;
+                              } else if (value.toString().length < 9 ||
+                                  value.toString().length > 9) {
+                                return getLang(context, 'The code must')
+                                    as String;
+                              } else if (value < 200000000 ||
+                                  value > 209999999) {
+                                return getLang(context, 'code should be')
+                                    as String;
                               }
                             }),
                         const SizedBox(
                           height: 30,
                         ),
-
-
                         defaultFormField(
                             context: context,
                             controller: password,
@@ -135,11 +141,11 @@ RestPass(this.email);
                             validate: (value) {
                               if (value!.isEmpty) {
                                 return getLang(
-                                    context, 'registerPasswordMustFilled')
-                                as String;
-                              }
-                              else if(isValidPass(value) == false){
-                                return getLang(context, 'Invalid password') as String;
+                                        context, 'registerPasswordMustFilled')
+                                    as String;
+                              } else if (isValidPass(value) == false) {
+                                return getLang(context, 'Invalid password')
+                                    as String;
                               }
                             },
                             onSubmit: (value) {},
@@ -156,16 +162,16 @@ RestPass(this.email);
                             label: getLang(context, 'registerConfirmPassword'),
                             prefix: Icons.lock,
                             isPassword:
-                            AppCubit.get(context).showConfirmPasswordR,
+                                AppCubit.get(context).showConfirmPasswordR,
                             validate: (value) {
                               if (value!.isEmpty) {
                                 return getLang(context,
-                                    'registerConfirmPasswordMustFilled')
-                                as String;
+                                        'registerConfirmPasswordMustFilled')
+                                    as String;
                               } else if (value != password.text) {
                                 return getLang(context,
-                                    'registerConfirmPasswordMatchMustFilled')
-                                as String;
+                                        'registerConfirmPasswordMatchMustFilled')
+                                    as String;
                               }
                             },
                             suffix: AppCubit.get(context).confirmSuffixIconR,
@@ -179,24 +185,27 @@ RestPass(this.email);
                         state is RestLoadingState
                             ? const Center(child: CircularProgressIndicator())
                             : ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: MaterialButton(
-                            onPressed: () {
-                              if (FormKey.currentState!.validate()) {
-                                AppCubit.get(context).restPass(code: code.text,pass: password.text,email:email );
-                              }
-                            },
-                            minWidth: MediaQuery.of(context).size.width,
-                            height: 50,
-                            color: primaryColor,
-                            child:
-                            Text(getLang(context, 'Password Register'),
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                )),
-                          ),
-                        ),
+                                borderRadius: BorderRadius.circular(20),
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    if (FormKey.currentState!.validate()) {
+                                      AppCubit.get(context).restPass(
+                                          code: code.text,
+                                          pass: password.text,
+                                          email: email);
+                                    }
+                                  },
+                                  minWidth: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  color: primaryColor,
+                                  child: Text(
+                                      getLang(context, 'Password Register'),
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      )),
+                                ),
+                              ),
                       ],
                     ),
                   ),

@@ -62,11 +62,11 @@ class Register extends StatelessWidget {
               ),
               Text(getLang(context, 'layoutTitle1'),
                   style: GoogleFonts.poppins()),
-              if(lang =='ar')
+              if (lang == 'ar')
                 const SizedBox(
                   width: 76,
                 ),
-              if(lang =='en')
+              if (lang == 'en')
                 const SizedBox(
                   width: 30,
                 ),
@@ -112,11 +112,10 @@ class Register extends StatelessWidget {
                             if (value!.isEmpty) {
                               return getLang(context, 'registerEmailMustFilled')
                                   as String;
+                            } else if (value.length < 3 || value.length > 50) {
+                              return getLang(context, 'The short name')
+                                  as String;
                             }
-                            else if(value.toString().length < 4){
-                              return getLang(context, 'The short name') as String;
-                            }
-
                           }),
                       const SizedBox(
                         height: 30,
@@ -131,9 +130,13 @@ class Register extends StatelessWidget {
                             if (value!.isEmpty) {
                               return getLang(context, 'registerCodeMustFilled')
                                   as String;
-                            }
-                            else if(value.toString().length < 9 || value.toString().length > 9){
-                              return getLang(context, 'The code must') as String;
+                            } else if (value.toString().length < 9 ||
+                                value.toString().length > 9) {
+                              return getLang(context, 'The code must')
+                                  as String;
+                            } else if (value < 200000000 || value > 209999999) {
+                              return getLang(context, 'code should be')
+                                  as String;
                             }
                           }),
                       const SizedBox(
@@ -164,9 +167,10 @@ class Register extends StatelessWidget {
                             if (value!.isEmpty) {
                               return getLang(context, 'registerEmailMustFilled')
                                   as String;
-                            }
-                            else if(isValidEmail(value.toString()) == false ){
-                              return getLang(context, 'The email is incorrect') as String;
+                            } else if (isValidEmail(value.toString()) ==
+                                false) {
+                              return getLang(context, 'The email is incorrect')
+                                  as String;
                             }
                           }),
                       const SizedBox(
@@ -183,9 +187,9 @@ class Register extends StatelessWidget {
                               return getLang(
                                       context, 'registerPasswordMustFilled')
                                   as String;
-                            }
-                            else if(isValidPass(value) == false){
-                              return getLang(context, 'Invalid password') as String;
+                            } else if (isValidPass(value) == false) {
+                              return getLang(context, 'Invalid password')
+                                  as String;
                             }
                           },
                           onSubmit: (value) {},
@@ -272,14 +276,13 @@ class Register extends StatelessWidget {
                                 onPressed: () {
                                   if (signUpFormKey.currentState!.validate()) {
                                     AppCubit.get(context).signUp(
-                                      email: email.text,
-                                      password: password.text,
-                                      fullName: name.text,
-                                      code: code.text,
-                                      phone: phone.text,
-                                      specialization: specialization,
-                                      repassword:confirmPassword.text
-                                    );
+                                        email: email.text,
+                                        password: password.text,
+                                        fullName: name.text,
+                                        code: code.text,
+                                        phone: phone.text,
+                                        specialization: specialization,
+                                        repassword: confirmPassword.text);
                                   }
                                 },
                                 minWidth: MediaQuery.of(context).size.width,
