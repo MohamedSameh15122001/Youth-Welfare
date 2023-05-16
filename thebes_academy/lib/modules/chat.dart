@@ -1,42 +1,42 @@
-// // Copyright 2021 Google LLC
-// //
-// // Licensed under the Apache License, Version 2.0 (the "License");
-// // you may not use this file except in compliance with the License.
-// // You may obtain a copy of the License at
-// //
-// // http://www.apache.org/licenses/LICENSE-2.0
-// //
-// // Unless required by applicable law or agreed to in writing, software
-// // distributed under the License is distributed on an "AS IS" BASIS,
-// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// // See the License for the specific language governing permissions and
-// // limitations under the License.
+// Copyright 2021 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-// // import 'dart:async';
-// // import 'package:dialogflow_flutter/dialogflowFlutter.dart';
-// // import 'package:dialogflow_flutter/googleAuth.dart';
-// import 'package:dialog_flowtter/dialog_flowtter.dart';
-// import 'package:flutter/material.dart';
-// // import 'package:flutter/services.dart';
-// // import 'package:rxdart/rxdart.dart';
-// // import 'package:sound_stream/sound_stream.dart';
-// // import 'package:dialogflow_grpc/dialogflow_grpc.dart';
-// // import 'package:dialogflow_grpc/generated/google/cloud/dialogflow/v2beta1/session.pb.dart';
-// import 'package:chat_bubbles/chat_bubbles.dart';
+// import 'dart:async';
+// import 'package:dialogflow_flutter/dialogflowFlutter.dart';
+// import 'package:dialogflow_flutter/googleAuth.dart';
+import 'package:dialog_flowtter/dialog_flowtter.dart';
+import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
+// import 'package:rxdart/rxdart.dart';
+// import 'package:sound_stream/sound_stream.dart';
+// import 'package:dialogflow_grpc/dialogflow_grpc.dart';
+// import 'package:dialogflow_grpc/generated/google/cloud/dialogflow/v2beta1/session.pb.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
 // import '../shared/constants.dart';
-
+//
 // class Chat extends StatefulWidget {
 //   Chat({required Key key}) : super(key: key);
-
+//
 //   @override
 //   _ChatState createState() => _ChatState();
 // }
-
-
+//
+//
 // class _ChatState extends State<Chat> {
 //   final List<ChatMessage> _messages = <ChatMessage>[];
 //   final TextEditingController _textController = TextEditingController();
-
+//
 //   // bool _isRecording = false;
 //   // RecorderStream _recorder = RecorderStream();
 //   // StreamSubscription? _recorderStatus;
@@ -44,15 +44,15 @@
 //   // BehaviorSubject<List<int>>? _audioStream;
 //   // DialogflowGrpcV2Beta1? dialogflow;
 //   late DialogFlowtter dialogFlowtter;
-
-
+//
+//
 //   @override
 //   void initState() {
 //     super.initState();
 //     initPlugin();
-
+//
 //   }
-
+//
 //   Future<void> initPlugin() async {
 //     DialogAuthCredentials credentials = await DialogAuthCredentials.fromFile('lib/assets/credentials.json');
 //     DialogFlowtter i = DialogFlowtter(credentials: credentials,);
@@ -72,32 +72,32 @@
 //     // DialogFlow dialogflow = DialogFlow(authGoogle: authGoogle, language: "en");
 //     // AIResponse aiResponse = await dialogflow.detectIntent(query);
 //   }
-
+//
 //   void dispose() {
 //     // _recorderStatus?.cancel();
 //     // _audioStreamSubscription?.cancel();
 //     dialogFlowtter.dispose();
 //     super.dispose();
 //   }
-
+//
 //   void handleSubmitted(text) async {
 //     print(text);
 //     _textController.clear();
-
+//
 //     ChatMessage message = ChatMessage(
 //       text: text,
 //       name: "You",
 //       type: true,
 //     );
-
+//
 //     setState(() {
 //       _messages.insert(0, message);
 //     });
-
+//
 //     DetectIntentResponse response = await dialogFlowtter.detectIntent(
 //       queryInput: QueryInput(text: TextInput(text:text)),
 //     );
-
+//
 //     ChatMessage botMessage = ChatMessage(
 //                   text: '${response.message}',
 //                   name: "Bot",
@@ -106,7 +106,7 @@
 //                 setState(() {
 //                   _messages.insert(0, botMessage);
 //                 });
-
+//
 //     // DetectIntentResponse? data = await dialogflow?.detectIntent(text, 'en-US');
 //     // String? fulfillmentText = data?.queryResult.fulfillmentText;
 //     // print(fulfillmentText);
@@ -134,7 +134,7 @@
 //     //   }
 //     // }
 //   }
-
+//
 //   // void handleStream() async {
 //   //   // _recorder.start();
 //   //   // _audioStream = BehaviorSubject<List<int>>();
@@ -189,13 +189,13 @@
 //   //     });
 //   //   }, onError: (e) {}, onDone: () {});
 //   // }
-
+//
 //   // void stopStream() async {
 //   //   // await _recorder.stop();
 //   //   await _audioStreamSubscription?.cancel();
 //   //   await _audioStream?.close();
 //   // }
-
+//
 //   // The chat interface
 //   //
 //   //------------------------------------------------------------------------------------
@@ -252,18 +252,18 @@
 //     );
 //   }
 // }
-
+//
 // //------------------------------------------------------------------------------------
 // // The chat message balloon
 // //
 // //------------------------------------------------------------------------------------
 // class ChatMessage extends StatelessWidget {
 //   ChatMessage({required this.text, required this.name, required this.type});
-
+//
 //   final String text;
 //   final String name;
 //   final bool type;
-
+//
 //   List<Widget> otherMessage(context) {
 //     return <Widget>[
 //       Column(
@@ -295,7 +295,7 @@
 //       ),
 //     ];
 //   }
-
+//
 //   List<Widget> myMessage(context) {
 //     return <Widget>[
 //       Expanded(
@@ -337,7 +337,7 @@
 //       )
 //     ];
 //   }
-
+//
 //   @override
 //   Widget build(BuildContext context) {
 //     return Container(

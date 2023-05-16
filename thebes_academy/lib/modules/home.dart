@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:thebes_academy/cubit/appCubit.dart';
 import 'package:thebes_academy/shared/constants.dart';
 
 import '../cubit/states.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class Home extends StatelessWidget {
           var cubit = AppCubit.get(context);
           return Conditional.single(
             context: context,
-            conditionBuilder: (context) => cubit.homeModel != null,
+            conditionBuilder: (context) => cubit.homeModel != null ,
             widgetBuilder: (context) => SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: AnimationLimiter(
@@ -62,7 +63,7 @@ class Home extends StatelessWidget {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 1.0),
                                   decoration:
-                                      const BoxDecoration(color: Colors.white),
+                                  const BoxDecoration(color: Colors.white),
                                   child: CachedNetworkImage(
                                     width: double.infinity,
                                     fit: BoxFit.cover,
@@ -72,7 +73,9 @@ class Home extends StatelessWidget {
                               },
                             );
                           }).toList(),
+
                         ),
+
                         Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(

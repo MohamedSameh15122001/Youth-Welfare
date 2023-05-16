@@ -41,15 +41,14 @@ class Category extends StatelessWidget {
                   ),
                   Text(getLang(context, "layoutTitle1"),
                       style: GoogleFonts.poppins()),
-                  if(lang =='ar')
+                  if (lang == 'ar')
                     const SizedBox(
                       width: 76,
                     ),
-                  if(lang =='en')
+                  if (lang == 'en')
                     const SizedBox(
                       width: 30,
                     ),
-
                 ],
               ),
             ),
@@ -100,7 +99,7 @@ class Category extends StatelessWidget {
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 1.0),
                                     decoration: const BoxDecoration(
-                                        color: Colors.amber),
+                                        color: Colors.white),
                                     child: CachedNetworkImage(
                                       imageUrl: '${i.url}',
                                       width: double.infinity,

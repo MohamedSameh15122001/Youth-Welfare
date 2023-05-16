@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -139,9 +139,7 @@ class AppCubit extends Cubit<AppStates> {
       // print('${loginModel!.message}');
       emit(LoginSuccessState(loginModel!));
     }).catchError((error) {
-      if (error is DioError) if (error.response!.statusCode == 401 ||
-          error.response!.statusCode == 400 ||
-          error.response!.statusCode == 404) {
+      if (error is DioError) if (error.response!.statusCode == 401 || error.response!.statusCode == 400 || error.response!.statusCode == 404) {
         errorModel = ErrorModel.fromJson(error.response!.data);
       }
       emit(LoginErrorState());
@@ -191,9 +189,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(SignUpSuccessState(registerModel!));
     }).catchError((error) {
       print('$error');
-      if (error is DioError) if (error.response!.statusCode == 401 ||
-          error.response!.statusCode == 400 ||
-          error.response!.statusCode == 404) {
+      if (error is DioError) if (error.response!.statusCode == 401 || error.response!.statusCode == 400 || error.response!.statusCode == 404) {
         errorModel = ErrorModel.fromJson(error.response!.data);
         print('${errorModel!.message}');
       }
@@ -237,21 +233,23 @@ class AppCubit extends Cubit<AppStates> {
     ).then((value) {
       profileModel = ProfileModel.fromJson(value.data);
 
-      RT = [];
-      RA = [];
+      RT= [];
+      RA= [];
 
       var num = profileModel!.student!.activity!.length;
       for (var l = 0; l < num; l++) {
-        if (lang == 'ar') {
-          RA.add('${profileModel!.student!.activity![l].titleAr}');
-        } else {
+        if(lang=='ar')
+        RA.add('${profileModel!.student!.activity![l].titleAr}');
+        else
           RA.add('${profileModel!.student!.activity![l].titleEn}');
-        }
       }
 
       var num1 = profileModel!.student!.trip!.length;
       for (var l = 0; l < num1; l++) {
-        RT.add(profileModel!.student!.trip![l]);
+        if(lang=='ar')
+          RT.add('${profileModel!.student!.trip![l].titleAr}');
+        else
+          RT.add('${profileModel!.student!.trip![l].titleEn}');
       }
       emit(ProfileSuccessState());
     }).catchError((error) {
@@ -288,9 +286,10 @@ class AppCubit extends Cubit<AppStates> {
   void cancelActivity({String? categoryID, String? activityID}) {
     emit(CancelActivityLoadingState());
     DioHelper.getData(
-        url: '$Categories/$categoryID/$Activities/$activityID/$Cancel',
-        token: token,
-        query: {'lang': lang}).then((value) {
+      url: '$Categories/$categoryID/$Activities/$activityID/$Cancel',
+      token: token,
+        query: {'lang': lang}
+    ).then((value) {
       cancelModel = EnrollModel.fromJson(value.data);
       getProfileData();
       emit(CancelActivitySuccessState(cancelModel!));
@@ -307,17 +306,15 @@ class AppCubit extends Cubit<AppStates> {
     required String name,
     required String? image,
     required String phone,
-  }) async {
+  }) {
     emit(UpdateProfileLoadingState());
-    await DioHelper.putData(
+    DioHelper.putData(
         query: {'lang': lang},
-        url: UpdateProfile,
-        token: token,
-        data: {
-          'fullName': name,
-          'image': image ?? profileModel!.student!.image,
-          'phone': phone,
-        }).then((value) {
+        url: UpdateProfile, token: token, data: {
+      'fullName': name,
+      'image': image ?? profileModel!.student!.image,
+      'phone': phone,
+    }).then((value) {
       updateUserModel = EnrollModel.fromJson(value.data);
       getProfileData();
       emit(UpdateProfileSuccessState(updateUserModel!));
@@ -331,11 +328,13 @@ class AppCubit extends Cubit<AppStates> {
 
   File? file;
   String? imageName;
+  PickedFile? myfile;
   Future uploadPhoto() async {
-    final myfile = await ImagePicker().pickImage(source: ImageSource.gallery);
+     myfile = await ImagePicker().getImage(source: ImageSource.gallery);
     file = File(myfile!.path);
     imageName = file!.path.split(':').last;
-    emit(UploadPhotoState());
+
+     emit(UploadPhotoState());
   }
 
 /////////////////////////////////////////////////////////////////////
@@ -349,9 +348,9 @@ class AppCubit extends Cubit<AppStates> {
     DioHelper.putData(url: UpdatePass, token: token, data: {
       'oldPassword': oldPass,
       'newPassword': newPass,
-    }, query: {
-      'lang': lang
-    }).then((value) {
+    },
+        query: {'lang': lang}
+    ).then((value) {
       passwordModel = EnrollModel.fromJson(value.data);
       emit(ChangePassSuccessState(passwordModel!));
     }).catchError((error) {
@@ -426,9 +425,7 @@ class AppCubit extends Cubit<AppStates> {
       rateModel = EnrollModel.fromJson(value.data);
       emit(RateSuccessState(rateModel!));
     }).catchError((error) {
-      if (error is DioError) if (error.response!.statusCode == 401 ||
-          error.response!.statusCode == 400 ||
-          error.response!.statusCode == 404) {
+      if (error is DioError) if (error.response!.statusCode == 401 || error.response!.statusCode == 400 || error.response!.statusCode == 404) {
         errorModel = ErrorModel.fromJson(error.response!.data);
       }
 
@@ -438,6 +435,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   /////////////////////////////////////////////////////////////////////
+
 
   //language
   late String currentValue;
@@ -467,26 +465,29 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeLanguage());
   }
 
-/////////////////////////////////////////////////////////////////////
-
-  TripsModel? tripsModel;
-  void getTripsData() {
-    emit(TripsLoadingState());
-    DioHelper.getData(
-      query: {'lang': lang},
-      url: Trips,
-    ).then((value) {
-      tripsModel = TripsModel.fromJson(value.data);
-      emit(TripsSuccessState());
-    }).catchError((error) {
-      emit(TripsErrorState());
-      print(error.toString());
-    });
-  }
 
 /////////////////////////////////////////////////////////////////////
 
-  EnrollModel? setEmailModel;
+TripsModel? tripsModel;
+void getTripsData() {
+
+  emit(TripsLoadingState());
+  DioHelper.getData(
+    query: {'lang': lang},
+    url: Trips,
+  ).then((value) {
+    tripsModel = TripsModel.fromJson(value.data);
+    emit(TripsSuccessState());
+
+  }).catchError((error) {
+    emit(TripsErrorState());
+    print(error.toString());
+  });
+}
+
+/////////////////////////////////////////////////////////////////////
+
+EnrollModel? setEmailModel;
   void setEmail({String? email}) {
     emit(SetEmailLoadingState());
     DioHelper.postData(
@@ -496,9 +497,8 @@ class AppCubit extends Cubit<AppStates> {
       setEmailModel = EnrollModel.fromJson(value.data);
       emit(SetEmailSuccessState(setEmailModel!));
     }).catchError((error) {
-      if (error is DioError) if (error.response!.statusCode == 401 ||
-          error.response!.statusCode == 400 ||
-          error.response!.statusCode == 404) {
+      if (error is DioError)
+        if (error.response!.statusCode == 401 || error.response!.statusCode == 400  || error.response!.statusCode == 404) {
         errorModel = ErrorModel.fromJson(error.response!.data);
       }
       emit(SetEmailErrorState());
@@ -509,20 +509,19 @@ class AppCubit extends Cubit<AppStates> {
 /////////////////////////////////////////////////////////////////////
 
   EnrollModel? restPassModel;
-  void restPass({String? code, String? pass, String? email}) {
+  void restPass({String? code,String? pass,String? email}) {
     emit(RestLoadingState());
     DioHelper.postData(
         query: {'lang': lang},
         url: RestPass,
-        data: {'email': email, 'code': code, 'password': pass}).then((value) {
+        data: {'email': email,'code': code,'password': pass}).then((value) {
       restPassModel = EnrollModel.fromJson(value.data);
       emit(RestSuccessState(restPassModel!));
     }).catchError((error) {
-      if (error is DioError) if (error.response!.statusCode == 401 ||
-          error.response!.statusCode == 400 ||
-          error.response!.statusCode == 404) {
-        errorModel = ErrorModel.fromJson(error.response!.data);
-      }
+      if (error is DioError)
+        if (error.response!.statusCode == 401 || error.response!.statusCode == 400  || error.response!.statusCode == 404) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
       emit(RestErrorState());
       print(error.toString());
     });
@@ -531,22 +530,21 @@ class AppCubit extends Cubit<AppStates> {
   /////////////////////////////////////////////////////////////////////
 
   EnrollModel? enrollTripModel;
-  void addTrip({String? token, String? tripID}) {
+  void addTrip({String? token,String? tripID}) {
     emit(AddTripLoadingState());
     DioHelper.getData(
-            query: {'lang': lang},
-            url: '$Trips/$tripID/$EnrollTrip',
-            token: token)
-        .then((value) {
+        query: {'lang': lang},
+        url: '$Trips/$tripID/$EnrollTrip',
+      token: token
+        ).then((value) {
       enrollTripModel = EnrollModel.fromJson(value.data);
       getProfileData();
       emit(AddTripSuccessState(enrollTripModel!));
     }).catchError((error) {
-      if (error is DioError) if (error.response!.statusCode == 401 ||
-          error.response!.statusCode == 400 ||
-          error.response!.statusCode == 404) {
-        errorModel = ErrorModel.fromJson(error.response!.data);
-      }
+      if (error is DioError)
+        if (error.response!.statusCode == 401 || error.response!.statusCode == 400  || error.response!.statusCode == 404) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
       emit(AddTripErrorState());
       print(error.toString());
     });
@@ -555,21 +553,21 @@ class AppCubit extends Cubit<AppStates> {
   /////////////////////////////////////////////////////////////////////
 
   EnrollModel? contantModel;
-  void setContant({String? token, String? message}) {
+  void setContant({String? token,String? message}) {
     emit(ContantLoadingState());
     DioHelper.postData(
         query: {'lang': lang},
         url: Contact,
         token: token,
-        data: {'message': message}).then((value) {
+      data: {'message':message}
+    ).then((value) {
       contantModel = EnrollModel.fromJson(value.data);
       emit(ContantSuccessState(contantModel!));
     }).catchError((error) {
-      if (error is DioError) if (error.response!.statusCode == 401 ||
-          error.response!.statusCode == 400 ||
-          error.response!.statusCode == 404) {
-        errorModel = ErrorModel.fromJson(error.response!.data);
-      }
+      if (error is DioError)
+        if (error.response!.statusCode == 401 || error.response!.statusCode == 400  || error.response!.statusCode == 404) {
+          errorModel = ErrorModel.fromJson(error.response!.data);
+        }
       emit(ContantErrorState());
       print(error.toString());
     });

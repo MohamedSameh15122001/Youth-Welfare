@@ -11,7 +11,6 @@ import '../cubit/states.dart';
 import '../shared/component.dart';
 import '../shared/constants.dart';
 
-// ignore: must_be_immutable
 class EditProfile extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -65,7 +64,7 @@ class EditProfile extends StatelessWidget {
                 Navigator.pop(context);
                 cubit.imageName = null;
               },
-              icon: const Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back),
             ),
             backgroundColor: primaryColor,
             centerTitle: true,
@@ -118,8 +117,8 @@ class EditProfile extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (state is UpdateProfileLoadingState)
-                                const Column(
-                                  children: [
+                                Column(
+                                  children: const [
                                     LinearProgressIndicator(),
                                     SizedBox(
                                       height: 15,
@@ -147,8 +146,6 @@ class EditProfile extends StatelessWidget {
                                                         FontWeight.w500)),
                                             onPressed: () {
                                               print('${cubit.imageName}');
-                                              print(
-                                                  '====================================');
 
                                               if (formkey.currentState!
                                                   .validate()) {
@@ -237,10 +234,9 @@ class EditProfile extends StatelessWidget {
                                       return getLang(
                                               context, 'editProfileThisField')
                                           as String;
-                                    } else if (value.length < 3 ||
-                                        value.length > 50) {
-                                      return getLang(context, 'The short name')
-                                          as String;
+                                    }
+                                    else if(value.toString().length < 4 || value.toString().length > 50){
+                                      return getLang(context, 'The short name') as String;
                                     }
                                   }),
                               const SizedBox(
@@ -282,8 +278,8 @@ class EditProfile extends StatelessWidget {
                                   fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                             state is ChangePassLoadingState
-                                ? const Column(
-                                    children: [
+                                ? Column(
+                                    children: const [
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -368,10 +364,9 @@ class EditProfile extends StatelessWidget {
                                       return getLang(
                                               context, 'editProfileThisField')
                                           as String;
-                                    } else if (isValidPass(value) == false) {
-                                      return getLang(
-                                              context, 'Invalid password')
-                                          as String;
+                                    }
+                                    else if(isValidPass(value) == false){
+                                      return getLang(context, 'Invalid password') as String;
                                     }
                                   }),
                               const SizedBox(
@@ -401,14 +396,9 @@ class EditProfile extends StatelessWidget {
                                       return getLang(
                                               context, 'editProfileThisField')
                                           as String;
-                                    } else if (value !=
-                                        newPassController.text) {
+                                    } else if (value != newPassController.text) {
                                       return getLang(context,
                                               'registerConfirmPasswordMatchMustFilled')
-                                          as String;
-                                    } else if (isValidPass(value) == false) {
-                                      return getLang(
-                                              context, 'Invalid password')
                                           as String;
                                     }
                                   }),

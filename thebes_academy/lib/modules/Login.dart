@@ -20,6 +20,7 @@ TextEditingController emailController2 = TextEditingController();
 var loginFormKey = GlobalKey<FormState>();
 var dialogKey = GlobalKey<FormState>();
 
+
 class Login extends StatelessWidget {
   const Login({super.key});
 
@@ -48,16 +49,16 @@ class Login extends StatelessWidget {
               state: ToastStates.ERROR);
         }
 
-        if (state is SetEmailSuccessState) {
-          showToast(
-              text: '${AppCubit.get(context).setEmailModel!.message}',
-              state: ToastStates.SUCCESS);
-          Navigator.pop(context);
-          navigateTo(context, RestPass(emailController2.text));
-          emailController2.clear();
-        }
+        if (state is SetEmailSuccessState)
+          {
+            showToast(text: '${AppCubit.get(context).setEmailModel!.message}', state: ToastStates.SUCCESS);
+            Navigator.pop(context);
+            navigateTo(context,  RestPass(emailController2.text));
+            emailController2.clear();
+          }
 
-        if (state is SetEmailErrorState) {
+        if (state is SetEmailErrorState)
+        {
           showToast(
               text: '${AppCubit.get(context).errorModel!.message}',
               state: ToastStates.ERROR);
@@ -66,12 +67,7 @@ class Login extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                navigateAndKill(context, const Layout());
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
+            leading: IconButton(onPressed: () { navigateAndKill(context, Layout()); }, icon: Icon(Icons.arrow_back),),
             backgroundColor: primaryColor,
             centerTitle: true,
             title: Row(
@@ -89,11 +85,11 @@ class Login extends StatelessWidget {
                 ),
                 Text(getLang(context, "layoutTitle1"),
                     style: GoogleFonts.poppins()),
-                if (lang == 'ar')
+                if(lang =='ar')
                   const SizedBox(
                     width: 76,
                   ),
-                if (lang == 'en')
+                if(lang =='en')
                   const SizedBox(
                     width: 30,
                   ),
@@ -146,11 +142,6 @@ class Login extends StatelessWidget {
                                     return getLang(
                                             context, 'loginEmailMustFilled')
                                         as String;
-                                  } else if (isValidEmail(value.toString()) ==
-                                      false) {
-                                    return getLang(
-                                            context, 'The email is incorrect')
-                                        as String;
                                   }
                                 }),
                             const SizedBox(
@@ -166,9 +157,6 @@ class Login extends StatelessWidget {
                                   if (value!.isEmpty) {
                                     return getLang(
                                             context, 'loginPasswordMustFilled')
-                                        as String;
-                                  } else if (isValidPass(value) == false) {
-                                    return getLang(context, 'Invalid password')
                                         as String;
                                   }
                                 },
@@ -192,102 +180,73 @@ class Login extends StatelessWidget {
                                     showDialog(
                                         context: context,
                                         builder: (context) => Form(
-                                              key: dialogKey,
-                                              child: AlertDialog(
-                                                insetPadding: EdgeInsets.zero,
-                                                contentPadding:
-                                                    const EdgeInsets.all(30),
-                                                title: Text(
-                                                  getLang(context,
-                                                      'Enter your email'),
-                                                  style: GoogleFonts.poppins(
-                                                      color: primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                content: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                          key: dialogKey,
+                                          child: AlertDialog(
+                                            insetPadding: EdgeInsets.zero,
+                                            contentPadding: const EdgeInsets.all(30),
+                                            title: Text(getLang(context, 'Enter your email'), style: GoogleFonts.poppins(
+                                                  color:
+                                                  primaryColor,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w600),
+                                            ),
+                                            content: Column(
+                                              mainAxisSize:
+                                              MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                defaultFormField(
+                                                    context: context,
+                                                    controller: emailController2,
+                                                    keyboardType: TextInputType.emailAddress,
+                                                    label: getLang(context, 'loginEmail'),
+                                                    prefix: Icons.email,
+                                                    validate: (value) {
+                                                      if (value!.isEmpty) {
+                                                        return getLang(
+                                                            context, 'loginEmailMustFilled')
+                                                        as String;
+                                                      }
+                                                    }),
+                                                 const SizedBox(height: 15,),
+                                                 Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    defaultFormField(
-                                                        context: context,
-                                                        controller:
-                                                            emailController2,
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .emailAddress,
-                                                        label: getLang(context,
-                                                            'loginEmail'),
-                                                        prefix: Icons.email,
-                                                        validate: (value) {
-                                                          if (value!.isEmpty) {
-                                                            return getLang(
-                                                                    context,
-                                                                    'loginEmailMustFilled')
-                                                                as String;
-                                                          } else if (isValidEmail(
-                                                                  value
-                                                                      .toString()) ==
-                                                              false) {
-                                                            return getLang(
-                                                                    context,
-                                                                    'The email is incorrect')
-                                                                as String;
+                                                    OutlinedButton(
+                                                        onPressed:
+                                                            () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          emailController2.clear();
+                                                        },
+                                                        child: Text(
+                                                            getLang(
+                                                                context,
+                                                                'activityRateCancelButton'),
+                                                            style: GoogleFonts.poppins(
+                                                                color: primaryColor,
+                                                                fontWeight: FontWeight.w500))),
+                                                    OutlinedButton(
+                                                        onPressed: () {
+                                                          if(dialogKey.currentState!.validate()) {
+                                                            AppCubit.get(context).setEmail(email: emailController2.text);
                                                           }
-                                                        }),
-                                                    const SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        OutlinedButton(
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                              emailController2
-                                                                  .clear();
-                                                            },
-                                                            child: Text(
-                                                                getLang(context,
-                                                                    'activityRateCancelButton'),
-                                                                style: GoogleFonts.poppins(
-                                                                    color:
-                                                                        primaryColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500))),
-                                                        OutlinedButton(
-                                                            onPressed: () {
-                                                              if (dialogKey
-                                                                  .currentState!
-                                                                  .validate()) {
-                                                                AppCubit.get(
-                                                                        context)
-                                                                    .setEmail(
-                                                                        email: emailController2
-                                                                            .text);
-                                                              }
-                                                            },
-                                                            child: Text(
-                                                                getLang(context,
-                                                                    'activityRateDoneButton'),
-                                                                style: GoogleFonts.poppins(
-                                                                    color:
-                                                                        primaryColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500)))
-                                                      ],
-                                                    )
+                                                        },
+                                                        child: Text(
+                                                            getLang(
+                                                                context,
+                                                                'activityRateDoneButton'),
+                                                            style: GoogleFonts.poppins(
+                                                                color: primaryColor,
+                                                                fontWeight: FontWeight.w500)))
                                                   ],
-                                                ),
-                                              ),
-                                            ));
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ));
                                   },
                                   child: Text(
                                     getLang(context, 'loginForgetPassword'),

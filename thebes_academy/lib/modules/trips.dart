@@ -193,7 +193,7 @@ Widget buildTripsItem(Result model, context, AppCubit cubit) {
           const SizedBox(
             height: 10,
           ),
-          if (!cubit.RT.contains('${model.sId}'))
+          if (!cubit.RT.contains('${model.titleAr}'))
             Container(
               width: 110,
               height: 40,
@@ -269,11 +269,11 @@ Widget buildTripsItem(Result model, context, AppCubit cubit) {
                 ),
               ),
             ),
-          if (cubit.RT.contains('${model.sId}'))
+          if (cubit.RT.contains('${model.titleAr}'))
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                width: 155,
+                width: 160,
                 height: 40,
                 color: Colors.grey,
                 child: Center(

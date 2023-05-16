@@ -23,7 +23,7 @@ class Student {
   Null? emailToken;
   String? specialization;
   List<Activity>? activity;
-  List<String>? trip;
+  List<Trip>? trip;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -48,9 +48,9 @@ class Student {
       });
     }
     if (json['trip'] != null) {
-      trip = <String>[];
+      trip = <Trip>[];
       json['trip'].forEach((v) {
-        trip!.add(v);
+        trip!.add(Trip.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
@@ -64,6 +64,16 @@ class Activity {
   String? titleEn;
 
   Activity.fromJson(Map<String, dynamic> json) {
+    titleAr = json['title_ar'];
+    titleEn = json['title_en'];
+  }
+}
+
+class Trip {
+  String? titleAr;
+  String? titleEn;
+
+  Trip.fromJson(Map<String, dynamic> json) {
     titleAr = json['title_ar'];
     titleEn = json['title_en'];
   }
