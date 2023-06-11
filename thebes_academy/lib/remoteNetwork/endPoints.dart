@@ -12,6 +12,8 @@ const Enroll='enroll/activity';
 
 const Cancel ='enroll/cancel';
 
+const UpdateImage ='students/myProfile/update/image';
+
 const UpdateProfile ='students/myProfile/update';
 
 const UpdatePass='students/myProfile/changePassword';

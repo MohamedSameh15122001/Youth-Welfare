@@ -7,6 +7,7 @@ class DioHelper
 {
   static late Dio dio;
 
+
   static init()
   {
     //print('dioHelper Initialized');
@@ -53,6 +54,7 @@ class DioHelper
   }
 
   static Future<Response> putData ({
+    String? contentType,
     required String url,
      Map<String,dynamic>? query,
     Map<String,dynamic> ?data,
@@ -61,6 +63,7 @@ class DioHelper
   {
     dio.options.headers =
     {
+      "Content-Type": contentType ??"application/json",
       'token' : '$token'
     };
     return await dio.put(

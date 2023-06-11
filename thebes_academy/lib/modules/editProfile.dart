@@ -32,6 +32,7 @@ class EditProfile extends StatelessWidget {
               text: '${state.updateUserModel.message}',
               state: ToastStates.SUCCESS);
           Navigator.pop(context);
+          AppCubit.get(context).file=null;
         }
 
         if (state is ChangePassSuccessState) {
@@ -62,7 +63,7 @@ class EditProfile extends StatelessWidget {
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
-                cubit.imageName = null;
+                cubit.nameFile = null;
               },
               icon: Icon(Icons.arrow_back),
             ),
@@ -145,15 +146,19 @@ class EditProfile extends StatelessWidget {
                                                     fontWeight:
                                                         FontWeight.w500)),
                                             onPressed: () {
-                                              print('${cubit.imageName}');
 
-                                              if (formkey.currentState!
-                                                  .validate()) {
+
+                                              if (formkey.currentState!.validate()) {
+                                                cubit.file==null?
                                                 cubit.updateProfileData(
                                                   name: nameController.text,
-                                                  image: cubit.imageName,
                                                   phone: phoneController.text,
-                                                );
+                                                ): cubit.updateImage(image: cubit.file).then((value) {
+                                                  cubit.updateProfileData(
+                                                    name: nameController.text,
+                                                    phone: phoneController.text,
+                                                  );
+                                                })   ;
                                               }
                                             },
                                           ),
@@ -168,29 +173,29 @@ class EditProfile extends StatelessWidget {
                                     children: [
                                       if (cubit.profileModel!.student!.image!
                                               .contains("http") &&
-                                          cubit.imageName == null)
+                                          cubit.file == null)
                                         CircleAvatar(
                                             radius: 60,
                                             backgroundImage: NetworkImage(
                                                 '${cubit.profileModel!.student!.image}')),
                                       if (cubit.profileModel!.student!.image!
                                               .contains("http") &&
-                                          cubit.imageName != null)
+                                          cubit.file != null)
                                         CircleAvatar(
                                           radius: 60,
                                           backgroundImage: FileImage(
-                                              File('${cubit.imageName}')),
+                                              File('${cubit.nameFile}')),
                                         ),
                                       if (!cubit.profileModel!.student!.image!
                                           .contains("http"))
                                         CircleAvatar(
                                           radius: 60,
-                                          backgroundImage: cubit.imageName ==
+                                          backgroundImage: cubit.file ==
                                                   null
                                               ? FileImage(File(
                                                   '${cubit.profileModel!.student!.image}'))
                                               : FileImage(
-                                                  File('${cubit.imageName}')),
+                                                  File('${cubit.nameFile}')),
                                         ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),

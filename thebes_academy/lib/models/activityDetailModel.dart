@@ -19,7 +19,7 @@ class Result {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  int? averageRating;
+  late var averageRating;
 
   Result.fromJson(Map<String, dynamic> json) {
     averageRating = json['averageRating'] ?? 0;

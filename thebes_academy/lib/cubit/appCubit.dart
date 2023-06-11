@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -304,7 +306,6 @@ class AppCubit extends Cubit<AppStates> {
   EnrollModel? updateUserModel;
   void updateProfileData({
     required String name,
-    required String? image,
     required String phone,
   }) {
     emit(UpdateProfileLoadingState());
@@ -312,7 +313,6 @@ class AppCubit extends Cubit<AppStates> {
         query: {'lang': lang},
         url: UpdateProfile, token: token, data: {
       'fullName': name,
-      'image': image ?? profileModel!.student!.image,
       'phone': phone,
     }).then((value) {
       updateUserModel = EnrollModel.fromJson(value.data);
@@ -326,14 +326,33 @@ class AppCubit extends Cubit<AppStates> {
 
   /////////////////////////////////////////////////////////////////////
 
-  File? file;
-  String? imageName;
-  PickedFile? myfile;
-  Future uploadPhoto() async {
-     myfile = await ImagePicker().getImage(source: ImageSource.gallery);
-    file = File(myfile!.path);
-    imageName = file!.path.split(':').last;
 
+  Future<void> updateImage({
+    required File? image,
+  }) async {
+    emit(UpdateProfileLoadingState());
+    var uri = Uri.parse('https://actitvityv1.onrender.com/$UpdateImage');
+    var request = http.MultipartRequest('PUT', uri);
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.headers['token'] = token!;
+    var stream = http.ByteStream(image!.openRead());
+    var length = await image.length();
+    var multipartFile = http.MultipartFile('image', stream, length,
+        filename: image.path.split('/').last);
+    request.files.add(multipartFile);
+     await request.send();
+  }
+
+  File? file;
+
+  String? nameFile;
+  Future uploadPhoto() async {
+    var myfile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(myfile !=null)
+      {
+        file = File(myfile!.path);
+      }
+    nameFile = file!.path.split(':').last;
      emit(UploadPhotoState());
   }
 

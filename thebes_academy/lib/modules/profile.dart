@@ -82,12 +82,14 @@ class Profile extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if (cubit.profileModel!.student!.image!.contains("http"))
+                              if (cubit.profileModel!.student!.image!
+                                  .contains("http"))
                                 CircleAvatar(
                                     radius: 60,
                                     backgroundImage: NetworkImage(
                                         '${cubit.profileModel!.student!.image}')),
-                              if (!cubit.profileModel!.student!.image!.contains("http"))
+                              if (!cubit.profileModel!.student!.image!
+                                  .contains("http"))
                                 CircleAvatar(
                                     radius: 60,
                                     backgroundImage: FileImage(File(
@@ -95,23 +97,18 @@ class Profile extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(getLang(context, 'profileName'),
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
-                              Text('${cubit.profileModel!.student!.fullName}',
-                                  style: GoogleFonts.poppins(fontSize: 20)),
-                            ],
+                          Center(
+                            child:
+                            Text('${cubit.profileModel!.student!.fullName}',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ),
-                          const Divider(
-                            thickness: 1.5,
-                          ),
-                          const SizedBox(height: 15),
-                          Column(
+                          const SizedBox(height: 40),
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(getLang(context, 'profileCode'),
                                   style: GoogleFonts.poppins(
@@ -125,8 +122,9 @@ class Profile extends StatelessWidget {
                             thickness: 1.5,
                           ),
                           const SizedBox(height: 15),
-                          Column(
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(getLang(context, 'profileSpecialization'),
                                   style: GoogleFonts.poppins(
@@ -148,35 +146,51 @@ class Profile extends StatelessWidget {
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
+                              SizedBox(
+                                width: lang == 'en' ? 100 : 70,
+                                child: const Divider(
+                                  color: primaryColor,
+                                  thickness: 5,
+                                ),
+                              ),
                               if (cubit
                                   .profileModel!.student!.activity!.isEmpty)
                                 Text(
                                     getLang(context,
                                         'profileYouAreNotParticipating'),
                                     style: GoogleFonts.poppins(fontSize: 18)),
+
+                              const SizedBox(height: 10),
                               if (cubit
                                   .profileModel!.student!.activity!.isNotEmpty)
                                 SizedBox(
-                                  height: 120,
+                                  height: 140,
                                   width: MediaQuery.of(context).size.width,
                                   child: ListView(
                                     physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    const NeverScrollableScrollPhysics(),
                                     scrollDirection: Axis.vertical,
                                     children: List.generate(
                                         cubit.profileModel!.student!.activity!
                                             .length,
-                                        (index) => Text(
-                                            CacheHelper.getData('lang') == 'en'
-                                                ? '${cubit.profileModel!.student!.activity![index].titleEn}'
-                                                : '${cubit.profileModel!.student!.activity![index].titleAr}',
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 20))),
+                                            (index) => Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.circle,
+                                              color: primaryColor,
+                                            ),
+                                            Text(
+                                                CacheHelper.getData(
+                                                    'lang') ==
+                                                    'en'
+                                                    ? ' ${cubit.profileModel!.student!.activity![index].titleEn}'
+                                                    : ' ${cubit.profileModel!.student!.activity![index].titleAr}',
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: 20)),
+                                          ],
+                                        )),
                                   ),
                                 ),
-                              const Divider(
-                                thickness: 1.5,
-                              ),
                             ],
                           ),
                           // const Spacer(),
@@ -273,3 +287,4 @@ Widget bottomCardWidget(context) {
     ),
   );
 }
+

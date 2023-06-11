@@ -135,7 +135,7 @@ class Register extends StatelessWidget {
                             else if(value.toString().length < 9 || value.toString().length > 9){
                               return getLang(context, 'The code must') as String;
                             }
-                            else if(value < 200000000 || value > 209999999){
+                            else if(int.parse(value) < 200000000 || int.parse(value) > 209999999){
                               return getLang(context, 'code should be') as String;
                             }
                           }),

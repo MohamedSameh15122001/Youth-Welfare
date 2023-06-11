@@ -143,6 +143,9 @@ class Login extends StatelessWidget {
                                             context, 'loginEmailMustFilled')
                                         as String;
                                   }
+                                  else if(isValidEmail(value.toString()) == false ){
+                                    return getLang(context, 'The email is incorrect') as String;
+                                  }
                                 }),
                             const SizedBox(
                               height: 40,
@@ -158,6 +161,9 @@ class Login extends StatelessWidget {
                                     return getLang(
                                             context, 'loginPasswordMustFilled')
                                         as String;
+                                  }
+                                  else if(isValidPass(value) == false){
+                                    return getLang(context, 'Invalid password') as String;
                                   }
                                 },
                                 onSubmit: (value) {
@@ -207,6 +213,9 @@ class Login extends StatelessWidget {
                                                         return getLang(
                                                             context, 'loginEmailMustFilled')
                                                         as String;
+                                                      }
+                                                      else if(isValidEmail(value.toString()) == false ){
+                                                        return getLang(context, 'The email is incorrect') as String;
                                                       }
                                                     }),
                                                  const SizedBox(height: 15,),
